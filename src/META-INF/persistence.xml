@@ -2,6 +2,12 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 	<persistence-unit name="LocadoraPU">
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+		<class>com.locadora.model.Categoria</class>
+		<class>com.locadora.model.Filme</class>
+		<class>com.locadora.model.Midia</class>
+		<class>com.locadora.model.Cliente</class>
+		<class>com.locadora.model.Locacao</class>
+		<class>com.locadora.model.Endereco</class>
 		
 		<properties>
 			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/locadora"/>

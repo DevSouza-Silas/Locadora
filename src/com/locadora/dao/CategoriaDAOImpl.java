@@ -22,7 +22,7 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 
 	@Override
 	public void salvar(Categoria categoria) {
-
+		System.out.println("Dentro do método salvar!!");
 		this.entityManager.persist(categoria);
 	}
 

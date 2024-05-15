@@ -1,9 +1,7 @@
 package com.locadora.model;
 
 import java.io.Serializable;
-import java.sql.Time;
 import java.time.Instant;
-import java.util.Calendar;
 import java.util.Date;
 
 import javax.persistence.Column;

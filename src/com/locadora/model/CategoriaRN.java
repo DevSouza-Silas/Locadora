@@ -3,6 +3,7 @@ package com.locadora.model;
 import java.util.List;
 
 import com.locadora.dao.CategoriaDAO;
+import com.locadora.util.DAOException;
 import com.locadora.util.DAOFactory;
 
 public class CategoriaRN {
@@ -28,7 +29,7 @@ public class CategoriaRN {
 		return categorias;
 	}
 	
-	public void salvar(Categoria categoria) throws Exception {
+	public void salvar(Categoria categoria) throws DAOException {
 	
 		Long id = categoria.getId();
 		if (id == null || id == 0) {
@@ -38,7 +39,7 @@ public class CategoriaRN {
 		}
 	}
 	
-	public void excluir(Categoria categoria) throws Exception {
+	public void excluir(Categoria categoria) throws DAOException {
 
 		this.categoriaDAO.excluir(categoria);
 	}

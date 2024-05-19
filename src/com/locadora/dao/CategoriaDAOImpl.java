@@ -5,6 +5,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import com.locadora.model.Categoria;
+import com.locadora.util.DAOException;
 
 public class CategoriaDAOImpl implements CategoriaDAO {
 
@@ -22,7 +23,7 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 			this.entityManager.getTransaction().commit();
 			
 		} catch (Throwable ex) {
-			new Exception("Não foi possível inserir a categoria. ", ex);
+			new DAOException("Não foi possível inserir a categoria. ", ex);
 		} finally {
 			try {
 				
@@ -30,7 +31,7 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 					this.entityManager.close();
 				}
 			} catch (Throwable t) {
-				new Exception("Erro ao Fecha operação de inserção. ", t);
+				new DAOException("Erro ao Fecha operação de inserção. ", t);
 			}
 		}
 	}
@@ -44,7 +45,7 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 			this.entityManager.getTransaction().commit();
 			
 		} catch (Throwable ex) {
-			
+			new DAOException("Não foi possível atualizar a categoria. ", ex);
 			if (this.entityManager.getTransaction().isActive()) {
 				this.entityManager.getTransaction().rollback();
 			}
@@ -56,7 +57,7 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 					this.entityManager.close();
 				}
 			} catch (Throwable t) {
-				t.printStackTrace();
+				new DAOException("Erro ao Fecha operação de atualização. ", t);
 			}
 		}
 	}
@@ -75,7 +76,7 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 			this.entityManager.getTransaction().commit();
 			
 		} catch (Throwable ex) {
-			new Exception("Não foi possível remover a categoria. ", ex);
+			new DAOException("Não foi possível remover a categoria. ", ex);
 			
 		} finally {
 			try {
@@ -84,7 +85,7 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 					this.entityManager.close();
 				}
 			} catch (Throwable t) {
-				new Exception("Erro ao Fecha operação de remoção. ", t);
+				new DAOException("Erro ao Fecha operação de remoção. ", t);
 			}
 		}
 	}
@@ -103,7 +104,7 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 			this.entityManager.getTransaction().commit();
 			
 		} catch (Throwable ex) {
-			new Exception("Erro ao tentar realizar buscar por id.", ex);
+			new DAOException("Erro ao tentar realizar buscar por id.", ex);
 
 			if (this.entityManager.getTransaction().isActive()) {
 				this.entityManager.getTransaction().rollback();
@@ -115,7 +116,7 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 					this.entityManager.close();
 				}
 			} catch (Throwable t) {
-				new Exception("Erro ao Fecha operação de busca. ", t);
+				new DAOException("Erro ao Fecha operação de busca. ", t);
 			}
 		}
 		return categoria;
@@ -138,7 +139,7 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 			this.entityManager.getTransaction().commit();
 			
 		} catch (Throwable ex) {
-			new Exception("Erro ao tentar realizar buscar por descrição.", ex);
+			new DAOException("Erro ao tentar realizar buscar por descrição.", ex);
 			
 			if (this.entityManager.getTransaction().isActive()) {
 				this.entityManager.getTransaction().rollback();
@@ -150,7 +151,7 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 					this.entityManager.close();
 				}
 			} catch (Throwable t) {
-				new Exception("Erro ao Fecha operação de busca. ", t);
+				new DAOException("Erro ao Fecha operação de busca. ", t);
 			}
 		}
 		return categorias;
@@ -172,7 +173,7 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 			this.entityManager.getTransaction().commit();
 			
 		} catch (Throwable ex) {
-			new Exception("Erro ao tentar listar categoria.", ex);
+			new DAOException("Erro ao tentar listar categoria.", ex);
 
 			if (this.entityManager.getTransaction().isActive()) {
 				this.entityManager.getTransaction().rollback();
@@ -184,7 +185,7 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 					this.entityManager.close();
 				}
 			} catch (Throwable t) {
-				new Exception("Erro ao Fecha operação de busca. ", t);
+				new DAOException("Erro ao Fecha operação de busca. ", t);
 			}
 		}
 		return categorias;

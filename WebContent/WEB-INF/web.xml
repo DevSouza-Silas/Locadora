@@ -22,7 +22,7 @@
     <servlet-name>Faces Servlet</servlet-name>
     <url-pattern>*.xhtml</url-pattern>
   </servlet-mapping>
-  <!-- 
+ <!-- 
   <filter>
   	<filter-name>conexaoFilter</filter-name>
   	<filter-class>com.locadora.web.filter.ConexaoJpaFilter</filter-class>
@@ -31,5 +31,6 @@
   	<filter-name>conexaoFilter</filter-name>
   	<url-pattern>*.xhtml</url-pattern>
   </filter-mapping>
-   -->
+  -->
+ 
 </web-app>

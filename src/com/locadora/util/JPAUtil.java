@@ -6,15 +6,9 @@ import javax.persistence.Persistence;
 
 public class JPAUtil {
 
-private static EntityManagerFactory factory = null;
-	
-	static {
-		if (factory == null) {
-			factory = Persistence.createEntityManagerFactory("LocadoraPU");
-		}
-	}
+	private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("LocadoraPU");
 	
 	public static EntityManager getEntityManager() {
-		return factory.createEntityManager();
+		return emf.createEntityManager();
 	}
 }

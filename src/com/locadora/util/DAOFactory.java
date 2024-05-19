@@ -19,7 +19,6 @@ public class DAOFactory {
 		
 		CategoriaDAOImpl categoriaDAO = new CategoriaDAOImpl();
 		categoriaDAO.setEntityManager(JPAUtil.getEntityManager());
-		
 		return categoriaDAO;
 	}
 	

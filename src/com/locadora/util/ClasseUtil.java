@@ -1,5 +1,8 @@
 package com.locadora.util;
 
+import java.time.Instant;
+import java.util.Date;
+
 public class ClasseUtil {
 	
 	/**
@@ -15,6 +18,28 @@ public class ClasseUtil {
 		if (length < qtdCaracter) {
 			
 			Message.erro(msg);
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public static boolean emptyDate(Date campo, String msg) {
+		
+		if (campo == null) {
+			
+			Message.erro(msg); 
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public static boolean emptyInstant(Instant campo, String msg) {
+		
+		if (campo == null) {
+			
+			Message.erro(msg); 
 			return true;
 		}
 		

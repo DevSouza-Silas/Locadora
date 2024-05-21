@@ -41,9 +41,8 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 
 		try {
 			this.entityManager.getTransaction().begin();
-			this.entityManager.merge(this.entityManager.getReference(Categoria.class, categoria.getId()));
+			this.entityManager.merge(categoria);
 			this.entityManager.getTransaction().commit();
-			
 		} catch (Throwable ex) {
 			new DAOException("Não foi possível atualizar a categoria. ", ex);
 			if (this.entityManager.getTransaction().isActive()) {
@@ -100,6 +99,7 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 			String jpql = "select c from Categoria c where c.id = :paramId";
 			Query consulta = this.entityManager.createQuery(jpql, Categoria.class);
 			consulta.setParameter("paramId", id);
+			categoria = (Categoria) consulta.getSingleResult();
 
 			this.entityManager.getTransaction().commit();
 			

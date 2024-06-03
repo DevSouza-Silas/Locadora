@@ -31,7 +31,7 @@ public class EnderecoDAOImpl implements EnderecoDAO {
 	@Override
 	public void excluir(Endereco endereco) {
 
-		this.entityManager.remove(endereco);
+		this.entityManager.remove(this.entityManager.getReference(Endereco.class, endereco.getId()));
 	}
 
 	@Override
@@ -44,6 +44,16 @@ public class EnderecoDAOImpl implements EnderecoDAO {
 		return (Endereco) consulta.getSingleResult();
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<Endereco> buscarPorRua(String rua) {
+
+		String jpql = "select c from Endereco c where c.rua = :paramRua";
+		Query consulta = this.entityManager.createQuery(jpql, Endereco.class);
+		consulta.setParameter("paramRua", rua);
+		
+		return consulta.getResultList();
+	}
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Endereco> listar() {

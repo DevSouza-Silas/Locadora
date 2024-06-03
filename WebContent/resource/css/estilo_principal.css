@@ -1,0 +1,33 @@
+#container{
+	width:70%;
+	height:100%;
+	margin:0 auto;
+	border: 2px;
+}
+
+#slogan {
+	text-align:center;
+	font-family: verdana, Arial, Sans-serif;
+	font-size: 12px;
+}
+
+#barra_menu {
+	background: #006600;;
+	min-height: 25px;
+	padding: 3px;
+	clear: both;
+} 	  	
+
+#corpo{
+	margin-top: 10px;
+	margin-bottom: 10px;
+	min-height: 300px;
+}
+
+#rodape{
+	background: #006600;
+	height: 100px;
+	margin-top: 5px;
+	padding: 10px;
+	text-align: center;
+}

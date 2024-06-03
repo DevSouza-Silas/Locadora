@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:h="http://java.sun.com/jsf/html">
+
+	<ui:composition template="/templates/interna.xhtml">
+		<ui:define name="corpo">
+			
+			<h:panelGroup>
+				<h3><h:outputText value="#{locacaoController.tituloForm} Locação"/></h3>
+				<h:messages showDetail="true"/>
+				<h:form>
+					<h:panelGroup>
+						<h:panelGrid columns="2">
+							<h:outputLabel value="Código"/>
+							<h:inputText styleClass="field-small" disabled="true"  value="#{locacaoController.locacao.id}"/>
+			
+							<h:outputLabel value="Cliente"/>
+					        <h:selectOneMenu value="#{locacaoController.locacao.cliente.id}">
+								<f:selectItems value="#{locacaoController.selectItemsClientes}"/>					        
+					        </h:selectOneMenu>
+					        
+					        <h:outputLabel value="Mídia"/>
+					        <h:selectOneMenu value="#{locacaoController.locacao.midia.id}">
+								<f:selectItems value="#{locacaoController.selectItemsMidias}"/>	
+								<f:ajax event="blur" render="IdFilme"/>				        
+					        </h:selectOneMenu>
+					        
+					        <h:outputLabel value="Filme Selecionado"/>
+					        <h:selectManyListbox id="IdFilme">
+								<f:selectItems value="#{locacaoController.selectItemsFilmes}"/>					        
+					        </h:selectManyListbox>
+
+					        <h:outputLabel value="Data do Empréstimo"/>
+					        <h:inputText value="#{locacaoController.locacao.dataEmprestimo}">
+					        	<f:convertDateTime dateStyle="default"/>
+					        </h:inputText>
+					        
+					        <h:outputLabel value="Hora do Empréstimo"/>
+					        <h:inputText value="#{locacaoController.locacao.horaEmprestimo}">
+					        	<f:convertDateTime dateStyle="default"/>
+					        </h:inputText>
+					        
+					        <h:outputLabel value="Data da Devolução"/>
+					        <h:inputText value="#{locacaoController.locacao.dataDevolucao}">
+					        	<f:convertDateTime dateStyle="default"/>
+					        </h:inputText>
+					        
+					        <h:outputLabel value="Observação"/>
+					        <h:inputText value="#{locacaoController.locacao.observacao}"/>
+					    </h:panelGrid>
+					    
+						<h:panelGrid columns="2" width="20">
+							
+							<h:commandButton rendered="#{locacaoController.flagPesquisar}" styleClass="btn-outline-secondary" value="Pesquisar" action="#{locacaoController.pesquisar}" />
+							
+							<h:commandButton rendered="#{locacaoController.flagCadastrar}" styleClass="btn-outline-secondary" value="Cadastrar" action="#{locacaoController.cadastrar}" />
+							
+							<h:commandButton rendered="#{locacaoController.flagEditar}" styleClass="btn-outline-secondary" value="Editar" action="#{locacaoController.editar}" />
+										        
+					        <h:commandButton rendered="#{locacaoController.flagNovo}" styleClass="btn-outline-secondary" value="Novo" action="#{locacaoController.novo}" />
+					        
+					        <h:commandButton rendered="#{locacaoController.flagCancelar}" styleClass="btn-outline-secondary" value="Cancelar" action="#{locacaoController.cancelar}" />				
+						</h:panelGrid>
+					</h:panelGroup>
+					
+					<h:dataTable value="#{locacaoController.locacoes}" var="l" rendered="#{!empty locacaoController.locacoes}">
+						<h:column>
+							<f:facet name="header">Código</f:facet>
+							<h:outputText value="#{l.id}"/>
+						</h:column>
+						
+						<h:column>
+							<f:facet name="header">Cliente</f:facet>	
+							<h:outputText value="#{l.cliente.nome}"/>
+						</h:column>
+						
+						<h:column>
+							<f:facet name="header">Filme</f:facet>
+							<h:outputText value="#{l.midia.filme.descricao}"/>
+						</h:column>
+						
+						<h:column>
+							<f:facet name="header">Data Empréstimo</f:facet>
+							<h:outputText value="#{l.dataEmprestimo}"/>
+						</h:column>
+						
+						<h:column>
+							<f:facet name="header">Hora Empréstimo</f:facet>
+							<h:outputText value="#{l.horaEmprestimo}"/>
+						</h:column>
+						
+						<h:column>
+							<f:facet name="header">Data Devolução</f:facet>
+							<h:outputText value="#{l.dataDevolucao}"/>
+						</h:column>
+						
+						<h:column>
+							<f:facet name="header">Observação</f:facet>
+							<h:outputText value="#{l.observacao}"/>
+						</h:column>
+						
+						<h:column>
+							<f:facet name="header"></f:facet>
+							<h:commandButton value="Editar" action="#{locacaoController.atualizarFlagEditar}">
+								<f:setPropertyActionListener value="#{l}" target="#{locacaoController.locacao}"/>
+							</h:commandButton>
+
+							<h:commandButton value="Excluir" action="#{locacaoController.remover}">
+								<f:setPropertyActionListener value="#{l}" target="#{locacaoController.locacao}"/>
+							</h:commandButton>
+						</h:column>
+					</h:dataTable>
+				</h:form>
+			</h:panelGroup>
+			
+		</ui:define>
+	</ui:composition>
+
+</html>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:h="http://java.sun.com/jsf/html">
+
+	<ui:composition template="/templates/interna.xhtml">
+		<ui:define name="corpo">
+			
+			<h:panelGroup>
+				<h3><h:outputText value="#{clienteController.tituloForm} Filme"/></h3>
+				<h:messages showDetail="true"/>
+				<h:form>
+					<h:panelGroup>
+						<h:panelGrid columns="2">
+							<h:outputLabel value="Código"/>
+							<h:inputText styleClass="field-small" disabled="true"  value="#{filmeController.filme.id}"/>
+			
+							<h:outputLabel value="Descrição"/>
+					        <h:inputText value="#{filmeController.filme.descricao}"/>
+					        
+					        <h:outputLabel value="Ano"/>
+					        <h:inputText value="#{filmeController.filme.ano}">
+					        	<f:convertDateTime dateStyle="default"/>
+					        </h:inputText>
+					        
+					        <h:outputLabel value="Categoria"/>
+					        <h:selectOneMenu value="#{filmeController.filme.categoria.id}">
+								<f:selectItems value="#{filmeController.selectItemsCategorias}"/>					        
+					        </h:selectOneMenu>
+					    </h:panelGrid>
+					    
+						<h:panelGrid columns="2" width="20">
+							
+							<h:commandButton rendered="#{filmeController.flagPesquisar}" styleClass="btn-outline-secondary" value="Pesquisar" action="#{filmeController.pesquisar}" />
+							
+							<h:commandButton rendered="#{filmeController.flagCadastrar}" styleClass="btn-outline-secondary" value="Cadastrar" action="#{filmeController.cadastrar}" />
+							
+							<h:commandButton rendered="#{filmeController.flagEditar}" styleClass="btn-outline-secondary" value="Editar" action="#{filmeController.editar}" />
+										        
+					        <h:commandButton rendered="#{filmeController.flagNovo}" styleClass="btn-outline-secondary" value="Novo" action="#{filmeController.novo}" />
+					        
+					        <h:commandButton rendered="#{filmeController.flagCancelar}" styleClass="btn-outline-secondary" value="Cancelar" action="#{filmeController.cancelar}" />				
+						</h:panelGrid>
+					</h:panelGroup>
+					
+					<h:dataTable value="#{filmeController.filmes}" var="f" rendered="#{!empty filmeController.filmes}">
+						<h:column>
+							<f:facet name="header">Código</f:facet>
+							<h:outputText value="#{f.id}"/>
+						</h:column>
+						
+						<h:column>
+							<f:facet name="header">Descrição</f:facet>	
+							<h:outputText value="#{f.descricao}"/>
+						</h:column>
+						
+						<h:column>
+							<f:facet name="header">Ano</f:facet>
+							<h:outputText value="#{f.ano}"/>
+						</h:column>
+						
+						<h:column>
+							<f:facet name="header">Categoria</f:facet>
+							<h:outputText value="#{f.categoria.descricao}"/>
+						</h:column>
+						
+						<h:column>
+							<f:facet name="header"></f:facet>
+							<h:commandButton value="Editar" action="#{filmeController.atualizarFlagEditar}">
+								<f:setPropertyActionListener value="#{f}" target="#{filmeController.filme}"/>
+							</h:commandButton>
+
+							<h:commandButton value="Excluir" action="#{filmeController.remover}">
+								<f:setPropertyActionListener value="#{f}" target="#{filmeController.filme}"/>
+							</h:commandButton>
+						</h:column>
+					</h:dataTable>
+				</h:form>
+			</h:panelGroup>
+			
+		</ui:define>
+	</ui:composition>
+
+</html>

@@ -1,17 +1,21 @@
 package com.locadora.model;
 
 import java.io.Serializable;
-import java.time.Instant;
+import java.sql.Time;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "locacao")
@@ -23,20 +27,23 @@ public class Locacao implements Serializable {
 	@Column(name = "cod_locacao")
 	private Long id;
 	
-	@ManyToOne
-	@JoinColumn(name = "cod_cliente")
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "cod_cliente", nullable = false)
 	private Cliente cliente;
 	
-	@ManyToOne
-	@JoinColumn(name = "cod_midia")
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "cod_midia", nullable = false)
 	private Midia midia;
 	
+	@Temporal(TemporalType.DATE)
 	@Column(name = "data_emprestimo", updatable = false)
 	private Date dataEmprestimo;
 	
+	@Temporal(TemporalType.TIME)
 	@Column(name = "hora_emprestimo", updatable = false)
-	private Instant horaEmprestimo;
+	private Date horaEmprestimo;
 	
+	@Temporal(TemporalType.DATE)
 	@Column(name = "data_devolucao")
 	private Date dataDevolucao;
 	
@@ -85,21 +92,17 @@ public class Locacao implements Serializable {
 		this.dataEmprestimo = dataEmprestimo;
 	}
 
-
-	public Instant getHoraEmprestimo() {
-		return horaEmprestimo;
-	}
-
-
-	public void setHoraEmprestimo(Instant horaEmprestimo) {
-		this.horaEmprestimo = horaEmprestimo;
-	}
-
-
 	public Date getDataDevolucao() {
 		return dataDevolucao;
 	}
 
+	public Date getHoraEmprestimo() {
+		return horaEmprestimo;
+	}
+
+	public void setHoraEmprestimo(Date horaEmprestimo) {
+		this.horaEmprestimo = horaEmprestimo;
+	}
 
 	public void setDataDevolucao(Date dataDevolucao) {
 		this.dataDevolucao = dataDevolucao;

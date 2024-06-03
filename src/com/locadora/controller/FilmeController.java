@@ -6,6 +6,13 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.model.SelectItem;
+
+import com.locadora.model.Categoria;
+import com.locadora.model.CategoriaRN;
+import com.locadora.model.Cliente;
+import com.locadora.model.Endereco;
+import com.locadora.model.EnderecoRN;
 import com.locadora.model.Filme;
 import com.locadora.model.FilmeRN;
 import com.locadora.util.ClasseUtil;
@@ -23,14 +30,16 @@ public class FilmeController implements Serializable {
     
     private FilmeRN filmeRN;
      
+    private CategoriaRN categoriaRN;
+
     private List<Filme> filmes;
+    
+    private List<SelectItem> selectItemsCategorias;
     
 	private String tituloForm;
 	
     private boolean flagCadastrar;
 
-    private boolean flagInputHidden_1;
-    
     private boolean flagEditar;
     
     private boolean flagCancelar;
@@ -43,20 +52,26 @@ public class FilmeController implements Serializable {
     public void init() {
     	this.filmes = new ArrayList<>();
     	this.filme = new Filme();
+    	this.filme.setCategoria(new Categoria());
+    	this.selectItemsCategorias = new ArrayList<SelectItem>();
+    	
     	flagPesquisar = true;
     	flagNovo = true;
-    	flagInputHidden_1 = false;
     	tituloForm = "Pesquisar";
+    	
     	carregarFilme();
+    	carregarCategorias();
     }
     
-    public void pesquisar(){
-    	if (validarCampos()) {
-    		
+    public String pesquisar(){
+
+    	if (!ClasseUtil.empty(this.filme.getDescricao(), "")){
     		this.filmeRN = new FilmeRN();
     		this.filmes.clear();
+
     		filmes.addAll(this.filmeRN.buscarPorDescricao(this.filme.getDescricao()));
-		}
+    	}
+    	return null;
     }
     
     public String cadastrar() throws DAOException{
@@ -87,7 +102,7 @@ public class FilmeController implements Serializable {
     	if (validarCampos()) {
     		
     		this.filmeRN = new FilmeRN();
-    		this.filmeRN.salvar(this.filme);
+    		this.filmeRN.atualizar(this.filme);
     		Message.info("Filme "+Message.MSG_EDICAO);
     		cancelar();
     	}
@@ -98,26 +113,30 @@ public class FilmeController implements Serializable {
     public String cancelar() {
     	
     	this.filme = new Filme();
+    	this.filme.setCategoria(new Categoria());
+    	
     	flagPesquisar = true;
     	flagNovo = true;
     	flagEditar = false;
 		flagCadastrar = false;
 		flagCancelar = false;
-		flagInputHidden_1 = false;
 		tituloForm = "Pesquisar";
 		return null;
     }
     
-    public void novo() {
+    public String novo() {
     	
-   		this.filme = new Filme();
+    	filme = new Filme();
+    	filme.setCategoria(new Categoria());
+    	
     	flagEditar = false;
     	flagPesquisar = false;
     	flagCancelar = true;
 		flagCadastrar = true;
-		flagInputHidden_1 = true;
 		flagNovo = false;
 		tituloForm = "Cadastrar";
+    
+		return null;
     }
     
     
@@ -130,7 +149,6 @@ public class FilmeController implements Serializable {
     	flagCancelar = true;
     	flagPesquisar = false;
 		flagCadastrar = false;
-		flagInputHidden_1 = true;
 		flagNovo = false;
 		tituloForm = "Editar";
     	return null;
@@ -138,7 +156,7 @@ public class FilmeController implements Serializable {
     
     private void carregarFilme() {
 		
-    	if (ClasseUtil.empty(this.filmes.size(), 1, "Lista de Filmes está vazia!")) {
+    	if (ClasseUtil.empty(this.filmes.size(), 1, "")) {
 			
     		this.filmeRN = new FilmeRN();
     		this.filmes.addAll(this.filmeRN.listar());
@@ -155,6 +173,16 @@ public class FilmeController implements Serializable {
     			retorno = false;
     	}
     	return retorno;
+    }
+    
+    private void carregarCategorias(){
+    	
+    	List<Categoria> categorias = new ArrayList<>();
+    	this.categoriaRN = new CategoriaRN();
+    	
+    	categorias = this.categoriaRN.listar();
+    	
+    	this.selectItemsCategorias.addAll(ClasseUtil.initCombo(categorias, "id", "descricao"));
     }
     
 	public boolean isFlagCadastrar() {
@@ -197,20 +225,28 @@ public class FilmeController implements Serializable {
 		this.flagNovo = flagNovo;
 	}
 
-	public boolean isFlagInputHidden_1() {
-		return flagInputHidden_1;
-	}
-
-	public void setFlagInputHidden_1(boolean flagInputHidden_1) {
-		this.flagInputHidden_1 = flagInputHidden_1;
-	}
-
 	public String getTituloForm() {
 		return tituloForm;
 	}
 
 	public void setTituloForm(String tituloForm) {
 		this.tituloForm = tituloForm;
+	}
+
+	public Filme getFilme() {
+		return filme;
+	}
+
+	public void setFilme(Filme filme) {
+		this.filme = filme;
+	}
+
+	public List<SelectItem> getSelectItemsCategorias() {
+		return selectItemsCategorias;
+	}
+
+	public void setSelectItemsCategorias(List<SelectItem> selectItemsCategorias) {
+		this.selectItemsCategorias = selectItemsCategorias;
 	}
 
 }

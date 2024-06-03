@@ -43,23 +43,27 @@ public class CategoriaController implements Serializable {
     
     @PostConstruct
     public void init() {
+    	
     	categorias = new ArrayList<>();
     	categoria = new Categoria();
     	confirmarSenha = null;
+    	
     	flagPesquisar = true;
     	flagNovo = true;
     	flagInputHidden_1 = false;
     	tituloForm = "Pesquisar";
+    	
     	carregarCategoria();
     }
     
-    public void pesquisar(){
+    public String pesquisar(){
     	if (!ClasseUtil.empty(categoria.getDescricao(), "Informe a descrição!")) {
     		
     		categoriaRN = new CategoriaRN();
     		categorias.clear();
     		categorias.addAll(categoriaRN.buscarPorDescricao(categoria.getDescricao()));
 		}
+    	return null;
     }
     
     public String cadastrar() throws DAOException{

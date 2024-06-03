@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	   xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:h="http://java.sun.com/jsf/html">
+
+	<ui:composition template="/templates/interna.xhtml">
+		<ui:define name="corpo">
+			
+			<h:panelGroup>
+				<h3>Cadastro de Endereço</h3>
+				<h:form>
+					<h:panelGroup>
+						<h:panelGrid columns="2">
+							<h:outputLabel value="Código"/>
+							<h:inputText styleClass="field-small" disabled="true"  value="#{enderecoController.endereco.id}"/>
+			
+					        <h:outputLabel value="Rua"/>
+					        <h:inputText value="#{enderecoController.endereco.rua}"/>
+					        
+					        <h:outputLabel value="Bairro"/>
+					        <h:inputText value="#{enderecoController.endereco.bairro}"/>
+					        
+					        <h:outputLabel value="Número"/>
+					        <h:inputText value="#{enderecoController.endereco.numero}"/>
+					    </h:panelGrid>
+					        
+						<h:panelGrid columns="2" width="20">
+							
+							<h:commandButton rendered="#{enderecoController.flagPesquisar}" styleClass="btn-outline-secondary" value="Pesquisar" action="#{enderecoController.pesquisar}" />
+							
+							<h:commandButton rendered="#{enderecoController.flagCadastrar}" styleClass="btn-outline-secondary" value="Cadastrar" action="#{enderecoController.cadastrar}" />
+							
+							<h:commandButton rendered="#{enderecoController.flagEditar}" styleClass="btn-outline-secondary" value="Editar" action="#{enderecoController.editar}" />
+										        
+					        <h:commandButton rendered="#{enderecoController.flagNovo}" styleClass="btn-outline-secondary" value="Novo" action="#{enderecoController.novo}" />
+					        
+					        <h:commandButton rendered="#{enderecoController.flagCancelar}" styleClass="btn-outline-secondary" value="Cancelar" action="#{enderecoController.cancelar}" />				
+						</h:panelGrid>
+					</h:panelGroup>
+				</h:form>
+			</h:panelGroup>
+			
+		</ui:define>
+	</ui:composition>
+
+</html>

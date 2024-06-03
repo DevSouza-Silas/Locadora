@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:h="http://java.sun.com/jsf/html">
+
+	<ui:composition template="/templates/interna.xhtml">
+		<ui:define name="corpo">
+			
+			<h:panelGroup>
+				<h3><h:outputText value="#{clienteController.tituloForm} Cliente"/></h3>
+				<h:messages showDetail="true"/>
+				<h:form>
+					<h:panelGroup>
+						<h:panelGrid columns="2">
+							<h:outputLabel value="Código"/>
+							<h:inputText styleClass="field-small" disabled="true"  value="#{clienteController.cliente.id}"/>
+			
+							<h:outputLabel value="Nome"/>
+					        <h:inputText value="#{clienteController.cliente.nome}"/>
+					        
+					        <h:outputLabel value="E-mail"/>
+					        <h:inputText value="#{clienteController.cliente.email}"/>
+					        
+					        <h:outputLabel value="Celular"/>
+					        <h:inputText value="#{clienteController.cliente.celular}"/>
+					        
+					        <h:outputLabel value="Telefone"/>
+					        <h:inputText value="#{clienteController.cliente.telefone}"/>
+					        
+					        <h:outputText value="Endereço"/>
+					        <h:selectOneMenu value="#{clienteController.cliente.endereco.id}">
+					        	<f:selectItems value="#{clienteController.selectItemEnderecos}"/>
+					        </h:selectOneMenu>
+					    </h:panelGrid>
+					    
+						<h:panelGrid columns="2" width="20">
+							
+							<h:commandButton rendered="#{clienteController.flagPesquisar}" styleClass="btn-outline-secondary" value="Pesquisar" action="#{clienteController.pesquisar}" />
+							
+							<h:commandButton rendered="#{clienteController.flagCadastrar}" styleClass="btn-outline-secondary" value="Cadastrar" action="#{clienteController.cadastrar}" />
+							
+							<h:commandButton rendered="#{clienteController.flagEditar}" styleClass="btn-outline-secondary" value="Editar" action="#{clienteController.editar}" />
+										        
+					        <h:commandButton rendered="#{clienteController.flagNovo}" styleClass="btn-outline-secondary" value="Novo" action="#{clienteController.novo}" />
+					        
+					        <h:commandButton rendered="#{clienteController.flagCancelar}" styleClass="btn-outline-secondary" value="Cancelar" action="#{clienteController.cancelar}" />				
+						</h:panelGrid>
+					</h:panelGroup>
+					
+					<h:dataTable value="#{clienteController.clientes}" var="c">
+						<h:column>
+							<f:facet name="header">Código</f:facet>
+							<h:outputText value="#{c.id}"/>
+						</h:column>
+						
+						<h:column>
+							<f:facet name="header">Nome</f:facet>	
+							<h:outputText value="#{c.nome}"/>
+						</h:column>
+						
+						<h:column>
+							<f:facet name="header">Email</f:facet>
+							<h:outputText value="#{c.email}"/>
+						</h:column>
+						
+						<h:column>
+							<f:facet name="header">Celular</f:facet>
+							<h:outputText value="#{c.celular}"/>
+						</h:column>
+						
+						<h:column>
+							<f:facet name="header">Telefone</f:facet>
+							<h:outputText value="#{c.telefone}"/>
+						</h:column>
+						
+						<h:column>
+							<f:facet name="header">Endereço</f:facet>
+							<h:outputText value="#{c.enderecoStr}"/>
+						</h:column>
+						
+						<h:column>
+							<f:facet name="header"></f:facet>
+							<h:commandButton value="Editar" action="#{clienteController.atualizarFlagEditar}">
+								<f:setPropertyActionListener value="#{c}" target="#{clienteController.cliente}"/>
+							</h:commandButton>
+
+							<h:commandButton value="Excluir" action="#{clienteController.remover}">
+								<f:setPropertyActionListener value="#{c}" target="#{clienteController.cliente}"/>
+							</h:commandButton>
+						</h:column>
+					</h:dataTable>
+				</h:form>
+			</h:panelGroup>
+			
+		</ui:define>
+	</ui:composition>
+
+</html>

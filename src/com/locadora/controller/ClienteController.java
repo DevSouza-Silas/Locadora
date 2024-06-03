@@ -6,8 +6,12 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.model.SelectItem;
+
 import com.locadora.model.Cliente;
 import com.locadora.model.ClienteRN;
+import com.locadora.model.Endereco;
+import com.locadora.model.EnderecoRN;
 import com.locadora.util.ClasseUtil;
 import com.locadora.util.DAOException;
 import com.locadora.util.Message;
@@ -22,15 +26,19 @@ public class ClienteController implements Serializable {
     private Cliente cliente;
     
     private ClienteRN clienteRN;
-     
+    
+    private EnderecoRN enderecoRN;
+    
+    private List<SelectItem> selectItemEnderecos;
+    
     private List<Cliente> clientes;
     
 	private String tituloForm;
 	
+	private String enderecoStr;
+	
     private boolean flagCadastrar;
 
-    private boolean flagInputHidden_1;
-    
     private boolean flagEditar;
     
     private boolean flagCancelar;
@@ -41,35 +49,43 @@ public class ClienteController implements Serializable {
     
     @PostConstruct
     public void init() {
-    	clientes = new ArrayList<>();
-    	cliente = new Cliente();
+    	
+    	this.clientes = new ArrayList<>();
+    	this.cliente = new Cliente();
+    	this.cliente.setEndereco(new Endereco());
+    	this.selectItemEnderecos = new ArrayList<>();
+    	
     	flagPesquisar = true;
     	flagNovo = true;
-    	flagInputHidden_1 = false;
     	tituloForm = "Pesquisar";
+    	
     	carregarCliente();
+    	carregarComboEndereco();
     }
     
-    public void pesquisar(){
+    public String pesquisar(){
     	if (!ClasseUtil.empty(cliente.getNome(), "Informe o Nome!")) {
     		
     		clienteRN = new ClienteRN();
     		clientes.clear();
     		clientes.addAll(clienteRN.buscarPorNome(cliente.getNome()));
 		}
+    	
+    	return null;
     }
     
-    public String cadastrar() throws DAOException{
+    public String cadastrar() {
     	
     	if (validarCampos()) {
     		
-    		clienteRN = new ClienteRN();
-    		clienteRN.salvar(cliente);
+    		this.clienteRN = new ClienteRN();
+    		this.clienteRN.salvar(this.cliente);
+    		
     		Message.info("Cliente " + Message.MSG_SALVO);
     		carregarCliente();
     		novo();
     	}
-    	return null;
+    	return "";
     }
 
     public String remover() throws RNException, DAOException {
@@ -87,7 +103,7 @@ public class ClienteController implements Serializable {
     	if (validarCampos()) {
     		
     		clienteRN = new ClienteRN();
-    		clienteRN.salvar(cliente);
+    		clienteRN.atualizar(cliente);
     		Message.info("Cliente " + Message.MSG_EDICAO);
     		cancelar();
     	}
@@ -98,26 +114,30 @@ public class ClienteController implements Serializable {
     public String cancelar() {
     	
     	cliente = new Cliente();
+    	cliente.setEndereco(new Endereco());
     	flagPesquisar = true;
+    	
     	flagNovo = true;
     	flagEditar = false;
 		flagCadastrar = false;
 		flagCancelar = false;
-		flagInputHidden_1 = false;
 		tituloForm = "Pesquisar";
 		return null;
     }
     
-    public void novo() {
+    public String novo() {
     	
    		cliente = new Cliente();
-    	flagEditar = false;
+   		cliente.setEndereco(new Endereco());
+    	
+   		flagEditar = false;
     	flagPesquisar = false;
     	flagCancelar = true;
 		flagCadastrar = true;
-		flagInputHidden_1 = true;
 		flagNovo = false;
 		tituloForm = "Cadastrar";
+    
+		return null;
     }
     
     
@@ -130,7 +150,6 @@ public class ClienteController implements Serializable {
     	flagCancelar = true;
     	flagPesquisar = false;
 		flagCadastrar = false;
-		flagInputHidden_1 = true;
 		flagNovo = false;
 		tituloForm = "Editar";
     	return null;
@@ -151,12 +170,21 @@ public class ClienteController implements Serializable {
     	if (ClasseUtil.empty(cliente.getNome(), "Campo Nome está vazio.")
     			|| ClasseUtil.empty(cliente.getEmail(), "Campo Email está vazio.")
     			|| ClasseUtil.empty(cliente.getCelular(), "Campo Celular está vazio.")
-    			|| ClasseUtil.empty(cliente.getTelefone(), "Campo Telefone está vazio.")
-    			|| ClasseUtil.empty(cliente.getEndereco().getId(), "Campo Endereço está vazio.")) {
+    			|| ClasseUtil.empty(cliente.getTelefone(), "Campo Telefone está vazio.")) {
 	    		
     			retorno = false;
     	}
     	return retorno;
+    }
+    
+    private void carregarComboEndereco(){
+    	
+    	List<Endereco> listEndereco = new ArrayList<>();
+    	enderecoRN = new EnderecoRN();
+    	
+    	listEndereco = enderecoRN.listar();
+    	
+   		this.selectItemEnderecos.addAll(ClasseUtil.initCombo(listEndereco, "id", "rua"));
     }
     
 	public Cliente getCliente() {
@@ -207,20 +235,20 @@ public class ClienteController implements Serializable {
 		this.flagNovo = flagNovo;
 	}
 
-	public boolean isFlagInputHidden_1() {
-		return flagInputHidden_1;
-	}
-
-	public void setFlagInputHidden_1(boolean flagInputHidden_1) {
-		this.flagInputHidden_1 = flagInputHidden_1;
-	}
-
 	public String getTituloForm() {
 		return tituloForm;
 	}
 
 	public void setTituloForm(String tituloForm) {
 		this.tituloForm = tituloForm;
+	}
+
+	public List<SelectItem> getSelectItemEnderecos() {
+		return selectItemEnderecos;
+	}
+
+	public void setSelectItemEnderecos(List<SelectItem> selectItemEnderecos) {
+		this.selectItemEnderecos = selectItemEnderecos;
 	}
 
 }

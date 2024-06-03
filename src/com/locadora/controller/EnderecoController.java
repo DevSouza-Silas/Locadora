@@ -50,14 +50,13 @@ public class EnderecoController implements Serializable {
     	carregarEndereco();
     }
     
-   /* public void pesquisar(){
+   public void pesquisar(){
     	if (validarCampos()) {
     		
     		enderecoRN = new EnderecoRN();
-    		enderecos.clear();
-    		enderecos.addAll(enderecoRN.buscarPorId(endereco.getRua()));
+    		enderecos.addAll(enderecoRN.buscarPorRua(endereco.getRua()));
 		}
-    }*/
+    }
     
     public String cadastrar() throws DAOException{
     	
@@ -211,6 +210,14 @@ public class EnderecoController implements Serializable {
 
 	public void setTituloForm(String tituloForm) {
 		this.tituloForm = tituloForm;
+	}
+
+	public Endereco getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
 	}
 
 }

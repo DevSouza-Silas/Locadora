@@ -6,8 +6,18 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.model.SelectItem;
+
+import com.locadora.model.Categoria;
+import com.locadora.model.CategoriaRN;
+import com.locadora.model.Cliente;
+import com.locadora.model.ClienteRN;
+import com.locadora.model.Filme;
+import com.locadora.model.FilmeRN;
 import com.locadora.model.Locacao;
 import com.locadora.model.LocacaoRN;
+import com.locadora.model.Midia;
+import com.locadora.model.MidiaRN;
 import com.locadora.util.ClasseUtil;
 import com.locadora.util.DAOException;
 import com.locadora.util.Message;
@@ -22,8 +32,20 @@ public class LocacaoController implements Serializable {
     private Locacao locacao;
     
     private LocacaoRN locacaoRN;
+    
+    private ClienteRN clienteRN;
+    
+    private MidiaRN midiaRN;
+    
+    private FilmeRN filmeRN;
      
     private List<Locacao> locacoes;
+    
+    private List<SelectItem> selectItemsClientes;
+    
+    private List<SelectItem> selectItemsFilmes;
+    
+    private List<SelectItem> selectItemsMidias;
     
 	private String tituloForm;
 	
@@ -42,12 +64,22 @@ public class LocacaoController implements Serializable {
     @PostConstruct
     public void init() {
     	this.locacoes = new ArrayList<>();
+    	this.selectItemsClientes = new ArrayList<>();
+    	this.selectItemsMidias = new ArrayList<>();
+    	this.selectItemsFilmes = new ArrayList<>();
     	this.locacao = new Locacao();
+    	this.locacao.setMidia(new Midia());
+    	this.locacao.getMidia().setFilme(new Filme());
+    	this.locacao.setCliente(new Cliente());
+    	
     	flagPesquisar = true;
     	flagNovo = true;
     	flagInputHidden_1 = false;
     	tituloForm = "Pesquisar";
+    	
     	carregarLocacao();
+    	carregarComboCliente();
+    	carregarComboMidia();
     }
     
     public void buscarPorID(){
@@ -143,7 +175,41 @@ public class LocacaoController implements Serializable {
     		this.locacoes.addAll(this.locacaoRN.listar());
 		}
 	}
+    
+    private void carregarComboCliente(){
+    	
+    	List<Cliente> clientes = new ArrayList<>();
+    	this.clienteRN = new ClienteRN();
+    	
+    	clientes = this.clienteRN.listar();
+    	
+    	this.selectItemsClientes.addAll(ClasseUtil.initCombo(clientes, "id", "nome"));
+    }
+    
+    private void carregarComboMidia(){
+    	
+    	List<Midia> midias = new ArrayList<>();
+    	this.midiaRN = new MidiaRN();
 
+    	midias = this.midiaRN.listar();
+    	
+    	this.selectItemsMidias.addAll(ClasseUtil.initCombo(midias, "id", "id"));
+    }
+    
+    public void getCarregarFilmePorDescricao(){
+    	
+    	List<Filme> filmes = new ArrayList<>();
+    	
+    	this.filmeRN = new FilmeRN();
+    	
+    	this.locacao.setMidia(new Midia());
+    	this.locacao.getMidia().setFilme(new Filme());
+    	filmes = this.filmeRN.buscarPorDescricao(this.locacao.getMidia().getFilme().getDescricao());
+    	
+    	this.selectItemsFilmes.addAll(ClasseUtil.initCombo(filmes, "id", "descricao"));
+    }
+
+    
     private boolean validarCampos() {
     	boolean retorno = true;
     	
@@ -151,7 +217,7 @@ public class LocacaoController implements Serializable {
     			|| ClasseUtil.empty(this.locacao.getCliente().getId(), "Campo Cliente está vazio.")
     			|| ClasseUtil.emptyDate(this.locacao.getDataDevolucao(), "Campo Data de devolução está vazio.")
     			|| ClasseUtil.emptyDate(this.locacao.getDataEmprestimo(), "Campo Data de empréstimo está vazio.")
-    			|| ClasseUtil.emptyInstant(this.locacao.getHoraEmprestimo(), "Campo Hora de empréstimo está vazio.")
+    			|| ClasseUtil.emptyDate(this.locacao.getHoraEmprestimo(), "Campo Hora de empréstimo está vazio.")
     			|| ClasseUtil.empty(this.locacao.getObservacao(), "Campo Observação está vazio.")) {
 	    		
     			retorno = false;
@@ -159,6 +225,40 @@ public class LocacaoController implements Serializable {
     	return retorno;
     }
     
+	public List<SelectItem> getSelectItemsFilmes() {
+		
+		getCarregarFilmePorDescricao();
+		return selectItemsFilmes;
+	}
+
+	public void setSelectItemsFilmes(List<SelectItem> selectItemsFilmes) {
+		this.selectItemsFilmes = selectItemsFilmes;
+	}
+
+	public List<SelectItem> getSelectItemsClientes() {
+		return selectItemsClientes;
+	}
+
+	public void setSelectItemsClientes(List<SelectItem> selectItemsClientes) {
+		this.selectItemsClientes = selectItemsClientes;
+	}
+
+	public List<SelectItem> getSelectItemsMidias() {
+		return selectItemsMidias;
+	}
+
+	public void setSelectItemsMidias(List<SelectItem> selectItemsMidias) {
+		this.selectItemsMidias = selectItemsMidias;
+	}
+
+	public Locacao getLocacao() {
+		return locacao;
+	}
+
+	public void setLocacao(Locacao locacao) {
+		this.locacao = locacao;
+	}
+
 	public boolean isFlagCadastrar() {
 		return flagCadastrar;
 	}

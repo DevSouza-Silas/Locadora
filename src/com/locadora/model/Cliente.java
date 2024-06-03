@@ -5,13 +5,17 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "cliente")
@@ -24,9 +28,12 @@ public class Cliente implements Serializable {
 	@Column(name = "cod_cliente")
 	private Long id;
 	
-	@OneToOne
-	@PrimaryKeyJoinColumn(name = "cod_cliente")
+	@ManyToOne
+	@JoinColumn(name = "cod_endereco", nullable = false)
 	private Endereco endereco;
+	
+	@Transient
+	private String enderecoStr;
 	
 	@OneToMany(mappedBy = "cliente")
 	private List<Locacao> locacoes;
@@ -45,6 +52,11 @@ public class Cliente implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
+	
+	public void setEnderecoStr(String enderecoStr) {
+		this.enderecoStr = enderecoStr;
+	}
+
 	public Endereco getEndereco() {
 		return endereco;
 	}
@@ -80,6 +92,11 @@ public class Cliente implements Serializable {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	
+	public String getEnderecoStr() {
+		enderecoStr = endereco.getRua()+ ", " + endereco.getNumero().toString() +", "+ endereco.getBairro();
+		return enderecoStr;
 	}
 	
 	@Override

@@ -14,6 +14,11 @@ public class EnderecoRN {
 		enderecoDAO = DAOFactory.criarEnderecoDAO();
 	}
 
+	public List<Endereco>  buscarPorRua(String rua) {
+		
+		return this.enderecoDAO.buscarPorRua(rua);
+	}
+	
 	public Endereco buscarPorId(Long id) {
 		
 		return this.enderecoDAO.buscarPorId(id);
@@ -21,13 +26,12 @@ public class EnderecoRN {
 	
 	public void salvar(Endereco endereco) {
 		
-		Long id = endereco.getId();
+		this.enderecoDAO.salvar(endereco);
+	} 
+	
+	public void atualizar(Endereco endereco) {
 		
-		if (id == null || id == 0) {
-			this.enderecoDAO.salvar(endereco);
-		} else {
-			this.enderecoDAO.atualizar(endereco);
-		}
+		this.enderecoDAO.atualizar(endereco);
 	}
 	
 	public void excluir(Endereco endereco) {

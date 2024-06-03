@@ -31,7 +31,7 @@ public class LocacaoDAOImpl implements LocacaoDAO {
 	@Override
 	public void excluir(Locacao locacao) {
 
-		this.entityManager.remove(locacao);
+		this.entityManager.remove(this.entityManager.getReference(Locacao.class, locacao.getId()));
 	}
 
 	@Override

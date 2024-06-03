@@ -26,13 +26,12 @@ public class ClienteRN {
 	
 	public void salvar(Cliente cliente) {
 		
-		Long id = cliente.getId();
+		this.clienteDAO.salvar(cliente);
+	}
+
+	public void atualizar(Cliente cliente) {
 		
-		if (id == null || id == 0) {
-			this.clienteDAO.salvar(cliente);
-		} else {
 			this.clienteDAO.atualizar(cliente);
-		}
 	}
 	
 	public void excluir(Cliente cliente) {

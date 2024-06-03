@@ -31,7 +31,7 @@ public class MidiaDAOImpl implements MidiaDAO {
 	@Override
 	public void excluir(Midia midia) {
 
-		this.entityManager.remove(midia);
+		this.entityManager.remove(this.entityManager.getReference(Midia.class, midia.getId()));
 	}
 
 	@Override

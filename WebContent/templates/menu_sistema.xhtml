@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:h="http://java.sun.com/jsf/html"
+ 	  xmlns:f="http://java.sun.com/jsf/core"
+ 	  xmlns:b="http://bootsfaces.net/ui">
+
+	<ui:composition>
+		<b:navBar brand="" style="background:gray; color:white;">
+		  <b:navbarLinks>
+		    <b:navLink style="color:white;" value="Filme" href="http://localhost:8080/Locadora/restrito/cadastro_filme.xhtml"></b:navLink>
+		    <b:navLink style="color:white;" value="Categoria" href="http://localhost:8080/Locadora/restrito/cadastro_categoria.xhtml"></b:navLink>
+		    <b:navLink style="color:white;" value="Locação" href="http://localhost:8080/Locadora/restrito/cadastro_locacao.xhtml"></b:navLink>
+		    
+		    <b:dropMenu  style="color:white;" value="Menu do Cliente">
+		     <b:navLink value="Cadastro" href="http://localhost:8080/Locadora/restrito/cadastro_cliente.xhtml"></b:navLink>
+		     <b:navLink value="Endereço" href="http://localhost:8080/Locadora/restrito/cadastro_endereco.xhtml"></b:navLink>
+		      <b:navLink value="Sair" href="#"></b:navLink>
+		    </b:dropMenu>
+		  </b:navbarLinks>
+		</b:navBar>
+	</ui:composition>
+</html>

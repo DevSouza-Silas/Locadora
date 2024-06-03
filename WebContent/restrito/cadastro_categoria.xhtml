@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:h="http://java.sun.com/jsf/html"
+ 	  xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
+ 	  
+	<ui:composition template="/templates/interna.xhtml">
+		<ui:define name="corpo">
+		
+			<h:messages showDetail="true" />
+			
+			<h3><h:outputText value="#{clienteController.tituloForm} Categoria"/></h3> 
+			
+			<div class="form-div">
+				<h:form>
+					<h:panelGroup>
+						<h:panelGrid columns="2">
+							<h:outputLabel value="Código"/>
+							<b:inputText styleClass="field-small" disabled="true"  value="#{categoriaController.categoria.id}"/>
+			
+							<h:outputLabel value="Descrição"/>
+					        <h:inputText value="#{categoriaController.categoria.descricao}"/>
+						</h:panelGrid>
+							
+						<h:panelGrid columns="2" width="20">
+							
+							<h:commandButton rendered="#{categoriaController.flagPesquisar}" styleClass="btn-outline-secondary" value="Pesquisar" action="#{categoriaController.pesquisar}" />
+							
+							<h:commandButton rendered="#{categoriaController.flagCadastrar}" styleClass="btn-outline-secondary" value="Cadastrar" action="#{categoriaController.cadastrar}" />
+							
+							<h:commandButton rendered="#{categoriaController.flagEditar}" styleClass="btn-outline-secondary" value="Editar" action="#{categoriaController.editar}" />
+										        
+					        <h:commandButton  rendered="#{categoriaController.flagNovo}" styleClass="btn-outline-secondary" value="Novo" action="#{categoriaController.novo}" />
+					        
+					        <h:commandButton rendered="#{categoriaController.flagCancelar}" styleClass="btn-outline-secondary" value="Cancelar" action="#{categoriaController.cancelar}" />				
+						</h:panelGrid>
+					</h:panelGroup>
+				</h:form>
+			</div>
+			
+			<h:panelGroup>
+				<div class="tabela-div">
+				 	<h:dataTable value="#{categoriaController.categorias}" var="c"
+				 				rendered="#{!empty categoriaController.categorias}">
+				 		
+				 		<f:facet name="header">Lista de Categorias</f:facet>
+				 	
+				 		<h:column>
+				 			<f:facet name="header">ID</f:facet>
+				 			<h:outputLabel value="#{c.id}"/>
+				 		</h:column>
+			 		
+				 		<h:column>
+				 			<f:facet name="header">Descrição</f:facet>
+				 			<h:outputLabel value="#{c.descricao}"/>
+				 		</h:column>
+				 		
+				 		<h:column>
+				 			<f:facet name="header"></f:facet>
+				 			<h:form>
+					 			<h:commandButton styleClass="btn-small btn-outline-secondary" value="Editar" action="#{categoriaController.atualizarFlagEditar}" >
+					 				<f:setPropertyActionListener value="#{c}" target="#{categoriaController.categoria}" />
+					 			</h:commandButton>
+					 			
+					 			<h:commandButton styleClass="btn-small btn-outline-danger" value="Excluir" action="#{categoriaController.remover}">
+						 			<f:setPropertyActionListener value="#{c}" target="#{categoriaController.categoria}" />
+						 		</h:commandButton>
+				 			</h:form>
+				 		</h:column>	
+				 	</h:dataTable>
+			 	</div>
+			</h:panelGroup>	
+		</ui:define>
+	</ui:composition>
+	
+</html>

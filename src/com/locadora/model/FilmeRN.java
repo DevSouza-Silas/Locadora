@@ -19,20 +19,22 @@ public class FilmeRN {
 		return this.filmeDAO.buscarPorId(id);
 	}
 	
+	public List<Filme> buscarFilmesPorMidia(Long idMidia) {
+		
+		return this.filmeDAO.buscarFilmesPorMidia(idMidia);
+	}
+
 	public List<Filme> buscarPorDescricao(String descricao) {
 		
 		return this.filmeDAO.buscarPorDescricao(descricao);
 	}
 	
 	public void salvar(Filme filme) {
-		
-		Long id = filme.getId();
-		
-		if (id == null || id == 0) {
-			this.filmeDAO.salvar(filme);
-		} else {
-			this.filmeDAO.atualizar(filme);
-		}
+		this.filmeDAO.salvar(filme);
+	} 
+	
+	public void atualizar(Filme filme) {	
+		this.filmeDAO.atualizar(filme);
 	}
 	
 	public void excluir(Filme filme) {

@@ -1,14 +1,15 @@
 package com.locadora.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.Parameter;
 
 @Entity
 @Table(name = "endereco")
@@ -16,13 +17,12 @@ public class Endereco implements Serializable {
 	
 	private static final long serialVersionUID = 2775319569741371409L;
 	@Id
-	@org.hibernate.annotations.GenericGenerator(name = "fk_endereco_cod_cliente", 
-			strategy = "foreign", parameters = @Parameter(name = "property", value = "cliente"))
-	@Column(name = "cod_cliente")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "cod_endereco")
 	private Long id;
-
-	@OneToOne(mappedBy = "endereco")
-	private Cliente cliente;
+	
+	@OneToMany(mappedBy = "endereco")
+	private List<Cliente> clientes;
 	
 	private String rua;
 	private Integer numero;
@@ -39,12 +39,12 @@ public class Endereco implements Serializable {
 		this.id = id;
 	}
 
-	public Cliente getCliente() {
-		return cliente;
+	public List<Cliente> getClientes() {
+		return clientes;
 	}
 
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
+	public void setClientes(List<Cliente> clientes) {
+		this.clientes = clientes;
 	}
 
 	public String getRua() {

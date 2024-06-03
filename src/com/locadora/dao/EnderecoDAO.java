@@ -10,5 +10,6 @@ public interface EnderecoDAO {
 	public void atualizar(Endereco endereco);
 	public void excluir(Endereco endereco);
 	public Endereco buscarPorId(Long id);
+	public List<Endereco> buscarPorRua(String rua);
 	public List<Endereco> listar();
 }

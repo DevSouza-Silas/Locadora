@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,8 +23,8 @@ public class Midia implements Serializable {
 	@Column(name = "cod_midia")
 	private Long id;
 	
-	@ManyToOne
-	@JoinColumn(name = "cod_filme")
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "cod_filme", nullable = false)
 	private Filme filme;
 	
 	private String inutilizada;

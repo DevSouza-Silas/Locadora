@@ -1,12 +1,12 @@
-AplicaÃ§Ã£o web (Locadora de filmes)
+Aplicação web - Locadora de filmes (Modelo retrô)
 
-Regras de negÃ³cio:
+Regras de negócio:
 Um filme sempre pertence a uma categoria. Contudo, podem  existir categorias que ainda nÃ£o tenham filmes vinculados.  
-Um filme tem vÃ¡rias mÃ­dias para locaÃ§Ã£o. Uma mÃ­dia sempre pertence a um filme, mas podem existir mÃ­dias de um filme que ainda nÃ£o foram locadas.
-Uma locaÃ§Ã£o contÃ©m uma Ãºnica mÃ­dia que estÃ¡ vinculada a um Ãºnico cliente. 
-Quando o cliente loca dois filmes, estÃ¡ levando duas mÃ­dias. Com isso teremos duas locaÃ§Ãµes, jÃ¡ que a data de devoluÃ§Ã£o pode ser diferente de um filme(mÃ­dia) para o outro. Um cliente pode ter ou nÃ£o realizado uma locaÃ§Ã£o.
-Um cliente tem um Ãºnico endereÃ§o. 
-Um endereÃ§o pertence a um Ãºnico cliente.
+Um filme tem várias mídias para locação. Uma mídia sempre pertence a um filme, mas podem existir mídias de um filme que ainda não foram locadas.
+Uma locação contém uma única mídia que está vinculada a um único cliente. 
+Quando o cliente loca dois filmes, está levando duas mídias. Com isso teremos duas locações, já que a data de devolução pode ser diferente de um filme(mídia) para o outro. Um cliente pode ter ou não realizado uma locação.
+Um cliente tem um único endereço. 
+Um endereço pertence a outros clientes.
 
 Tecnologias utilizadas:
 Java, JavaServerFaces, JPA, Hibernate, Arquitetura baseada no modelo MVC, Apache TomCat, PostgreSQL e IDE Eclipse.

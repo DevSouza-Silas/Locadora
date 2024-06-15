@@ -10,9 +10,6 @@ import javax.faces.model.SelectItem;
 
 import com.locadora.model.Categoria;
 import com.locadora.model.CategoriaRN;
-import com.locadora.model.Cliente;
-import com.locadora.model.Endereco;
-import com.locadora.model.EnderecoRN;
 import com.locadora.model.Filme;
 import com.locadora.model.FilmeRN;
 import com.locadora.util.ClasseUtil;
@@ -50,10 +47,8 @@ public class FilmeController implements Serializable {
     
     @PostConstruct
     public void init() {
-    	this.filmes = new ArrayList<>();
-    	this.filme = new Filme();
-    	this.filme.setCategoria(new Categoria());
-    	this.selectItemsCategorias = new ArrayList<SelectItem>();
+    	
+    	initObjects();
     	
     	flagPesquisar = true;
     	flagNovo = true;
@@ -61,6 +56,14 @@ public class FilmeController implements Serializable {
     	
     	carregarFilme();
     	carregarCategorias();
+    }
+    
+    private void initObjects() {
+    
+    	this.filmes = new ArrayList<>();
+    	this.filme = new Filme();
+    	this.filme.setCategoria(new Categoria());
+    	this.selectItemsCategorias = new ArrayList<SelectItem>();
     }
     
     public String pesquisar(){

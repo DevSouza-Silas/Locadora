@@ -10,5 +10,6 @@ public interface MidiaDAO {
 	public void atualizar(Midia midia);
 	public void excluir(Midia midia);
 	public Midia buscarPorId(Long id);
+	public List<Midia> buscarMidiaPorFilme(Long id);
 	public List<Midia> listar();
 }

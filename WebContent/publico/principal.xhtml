@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:h="http://java.sun.com/jsf/html"
+ 	  xmlns:f="http://java.sun.com/jsf/core">
+ 	  
+	<ui:composition template="/templates/interna.xhtml">
+		
+		<ui:define name="corpo">
+			<div id="tela-principal">
+				<h3>Lista de Filmes</h3>
+				
+				<h:dataTable border="2" width="1330" value="#{filmeController.filmes}" var="filme">
+					
+					<h:column headerClass="tabela-column">
+						<f:facet name="header">Ano</f:facet>	
+						<h:outputText value="#{filme.ano}" />
+					</h:column>
+					
+					<h:column headerClass="tabela-column">
+						<f:facet name="header">Filme</f:facet>	
+						<h:outputText value="#{filme.descricao}" />
+					</h:column>
+					
+					<h:column headerClass="tabela-column">
+						<f:facet name="header">Categoria</f:facet>	
+						<h:outputText value="#{filme.categoria.descricao}" />
+					</h:column>
+					
+					<h:column headerClass="tabela-column">
+						<f:facet name="header">Imagem do Cartaz</f:facet>	
+						<h:graphicImage width="200" height="100" library="img" name="#{filme.imagem}" />
+					</h:column>
+					
+					<h:column headerClass="tabela-column">
+						<f:facet name="header">Mais Locado</f:facet>	
+						<h:outputText styleClass="status" style="color:white; background-color: green;" value="Top #{filme.id}" />
+					</h:column>
+				</h:dataTable>
+			</div>
+			
+			
+						
+		</ui:define>
+	</ui:composition>
+</html>

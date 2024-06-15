@@ -1,7 +1,6 @@
 package com.locadora.model;
 
 import java.util.List;
-
 import com.locadora.dao.LocacaoDAO;
 import com.locadora.util.DAOFactory;
 
@@ -19,15 +18,18 @@ public class LocacaoRN {
 		return this.locacaoDAO.buscarPorId(id);
 	}
 	
+	public List<Locacao> buscarPorMidia(Long id) {
+		
+		return this.locacaoDAO.buscarPorMidia(id);
+	}
+	
 	public void salvar(Locacao locacao) {
-		
-		Long id = locacao.getId();
-		
-		if (id == null || id == 0) {
-			this.locacaoDAO.salvar(locacao);
-		} else {
-			this.locacaoDAO.atualizar(locacao);
-		}
+
+		this.locacaoDAO.salvar(locacao);
+	}
+	
+	public void atualizar(Locacao locacao) {
+		this.locacaoDAO.atualizar(locacao);
 	}
 	
 	public void excluir(Locacao locacao) {

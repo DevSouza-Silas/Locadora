@@ -2,14 +2,13 @@ package com.locadora.controller;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.model.SelectItem;
 
-import com.locadora.model.Categoria;
-import com.locadora.model.CategoriaRN;
 import com.locadora.model.Cliente;
 import com.locadora.model.ClienteRN;
 import com.locadora.model.Filme;
@@ -30,6 +29,10 @@ public class LocacaoController implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
     private Locacao locacao;
+    
+    private Cliente cliente;
+    
+    private Midia midia;
     
     private LocacaoRN locacaoRN;
     
@@ -53,7 +56,7 @@ public class LocacaoController implements Serializable {
 
     private boolean flagInputHidden_1;
     
-    private boolean flagEditar;
+    private boolean flagDeslocar;
     
     private boolean flagCancelar;
     
@@ -63,14 +66,8 @@ public class LocacaoController implements Serializable {
     
     @PostConstruct
     public void init() {
-    	this.locacoes = new ArrayList<>();
-    	this.selectItemsClientes = new ArrayList<>();
-    	this.selectItemsMidias = new ArrayList<>();
-    	this.selectItemsFilmes = new ArrayList<>();
-    	this.locacao = new Locacao();
-    	this.locacao.setMidia(new Midia());
-    	this.locacao.getMidia().setFilme(new Filme());
-    	this.locacao.setCliente(new Cliente());
+    	
+    	initObjects();
     	
     	flagPesquisar = true;
     	flagNovo = true;
@@ -80,6 +77,22 @@ public class LocacaoController implements Serializable {
     	carregarLocacao();
     	carregarComboCliente();
     	carregarComboMidia();
+    }
+    
+    private void initObjects() {
+    	
+    	this.locacoes = new ArrayList<>();
+    	this.selectItemsClientes = new ArrayList<>();
+    	this.selectItemsMidias = new ArrayList<>();
+    	this.selectItemsFilmes = new ArrayList<>();
+    	
+    	this.locacao = new Locacao();
+    	this.cliente = new Cliente();
+    	this.midia = new Midia();
+    	
+    	this.locacao.setMidia(new Midia());
+    	this.locacao.getMidia().setFilme(new Filme());
+    	this.locacao.setCliente(new Cliente());
     }
     
     public void buscarPorID(){
@@ -92,14 +105,31 @@ public class LocacaoController implements Serializable {
     
     public String cadastrar() throws DAOException{
     	
+		this.locacao.setCliente(this.cliente);
+		this.locacao.setMidia(this.midia);
+		this.locacao.setDataEmprestimo(new Date());
+		this.locacao.setHoraEmprestimo(new Date());
+		
     	if (validarCampos()) {
-    		
+
+    		List<Locacao> listaLocacaoSalva = new ArrayList<>(); 
     		this.locacaoRN = new LocacaoRN();
-    		this.locacaoRN.salvar(this.locacao);
-    		Message.info("Locação "+Message.MSG_SALVO);
-    		carregarLocacao();
-    		novo();
+    		
+    		listaLocacaoSalva = this.locacaoRN.buscarPorMidia(this.locacao.getMidia().getId());
+    		
+    		if (listaLocacaoSalva.size()> 0) {
+    			
+    			Message.erro("Esta Mídia está Locada!");
+    		} else {	
+    			this.locacaoRN = new LocacaoRN();
+	    		this.locacaoRN.salvar(this.locacao);
+	    		
+	    		Message.info("Locação "+Message.MSG_SALVO);
+	    		carregarLocacao();
+	    		novo();
+    		}
     	}
+    	
     	return null;
     }
 
@@ -107,18 +137,24 @@ public class LocacaoController implements Serializable {
     	
     	this.locacaoRN = new LocacaoRN();
     	this.locacaoRN.excluir(this.locacao);
-		Message.erro("Locação "+Message.MSG_REMOCAO);
+	
+    	Message.erro("Locação "+Message.MSG_REMOCAO);
 		cancelar();
 		
 		carregarLocacao();
     	return null;
     }
     
-    public String editar() throws RNException, DAOException {
+    public String deslocarMidia() throws RNException, DAOException {
+    	
+    	this.locacao.setCliente(this.cliente);
+		this.locacao.setMidia(this.midia);
+		
     	if (validarCampos()) {
     		
     		this.locacaoRN = new LocacaoRN();
-    		this.locacaoRN.salvar(this.locacao);
+    		this.locacaoRN.atualizar(this.locacao);
+    		
     		Message.info("Locação "+Message.MSG_EDICAO);
     		cancelar();
     	}
@@ -131,7 +167,7 @@ public class LocacaoController implements Serializable {
     	this.locacao = new Locacao();
     	flagPesquisar = true;
     	flagNovo = true;
-    	flagEditar = false;
+    	flagDeslocar = false;
 		flagCadastrar = false;
 		flagCancelar = false;
 		flagInputHidden_1 = false;
@@ -142,7 +178,7 @@ public class LocacaoController implements Serializable {
     public void novo() {
     	
    		this.locacao = new Locacao();
-    	flagEditar = false;
+    	flagDeslocar = false;
     	flagPesquisar = false;
     	flagCancelar = true;
 		flagCadastrar = true;
@@ -156,20 +192,20 @@ public class LocacaoController implements Serializable {
 		return locacoes;
 	}
 
-    public String atualizarFlagEditar() {
-    	flagEditar = true;
+    public String deslocarAtualizarFlags() {
+    	flagDeslocar = true;
     	flagCancelar = true;
     	flagPesquisar = false;
 		flagCadastrar = false;
 		flagInputHidden_1 = true;
 		flagNovo = false;
-		tituloForm = "Editar";
+		tituloForm = "Deslocar";
     	return null;
     }
     
     private void carregarLocacao() {
 		
-    	if (ClasseUtil.empty(this.locacoes.size(), 1, "Lista de Locações está vazia!")) {
+    	if (ClasseUtil.empty(this.locacoes.size(), 1, "")) {
 			
     		this.locacaoRN = new LocacaoRN();
     		this.locacoes.addAll(this.locacaoRN.listar());
@@ -216,8 +252,6 @@ public class LocacaoController implements Serializable {
     	if (ClasseUtil.empty(this.locacao.getMidia().getId(), "Campo Mídia está vazio.")
     			|| ClasseUtil.empty(this.locacao.getCliente().getId(), "Campo Cliente está vazio.")
     			|| ClasseUtil.emptyDate(this.locacao.getDataDevolucao(), "Campo Data de devolução está vazio.")
-    			|| ClasseUtil.emptyDate(this.locacao.getDataEmprestimo(), "Campo Data de empréstimo está vazio.")
-    			|| ClasseUtil.emptyDate(this.locacao.getHoraEmprestimo(), "Campo Hora de empréstimo está vazio.")
     			|| ClasseUtil.empty(this.locacao.getObservacao(), "Campo Observação está vazio.")) {
 	    		
     			retorno = false;
@@ -225,6 +259,26 @@ public class LocacaoController implements Serializable {
     	return retorno;
     }
     
+	public Midia getMidia() {
+		return midia;
+	}
+
+	public void setMidia(Midia midia) {
+		this.midia = midia;
+	}
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+
+	public void setLocacoes(List<Locacao> locacoes) {
+		this.locacoes = locacoes;
+	}
+
 	public List<SelectItem> getSelectItemsFilmes() {
 		
 		getCarregarFilmePorDescricao();
@@ -267,12 +321,12 @@ public class LocacaoController implements Serializable {
 		this.flagCadastrar = flagCadastrar;
 	}
 
-	public boolean isFlagEditar() {
-		return flagEditar;
+	public boolean isFlagDeslocar() {
+		return flagDeslocar;
 	}
 
-	public void setFlagEditar(boolean flagEditar) {
-		this.flagEditar = flagEditar;
+	public void setFlagDeslocar(boolean flagDeslocar) {
+		this.flagDeslocar = flagDeslocar;
 	}
 
 	public boolean isFlagPesquisar() {

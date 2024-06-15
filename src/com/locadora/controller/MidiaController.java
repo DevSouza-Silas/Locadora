@@ -6,6 +6,10 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.model.SelectItem;
+
+import com.locadora.model.Filme;
+import com.locadora.model.FilmeRN;
 import com.locadora.model.Midia;
 import com.locadora.model.MidiaRN;
 import com.locadora.util.ClasseUtil;
@@ -13,17 +17,23 @@ import com.locadora.util.DAOException;
 import com.locadora.util.Message;
 import com.locadora.util.RNException;
 
-@ManagedBean
 @ViewScoped
+@ManagedBean(name = "midiaController")
 public class MidiaController implements Serializable {
   
 	private static final long serialVersionUID = 1L;
 	
     private Midia midia;
     
+    private Filme filme;
+    
     private MidiaRN midiaRN;
+    
+    private FilmeRN filmeRN;
      
     private List<Midia> midias;
+    
+    private List<SelectItem> selectItemsFilmes;
     
 	private String tituloForm;
 	
@@ -41,29 +51,53 @@ public class MidiaController implements Serializable {
     
     @PostConstruct
     public void init() {
-    	this.midias = new ArrayList<>();
-    	this.midia = new Midia();
+    	
+    	initObjects();
+    	
     	flagPesquisar = true;
     	flagNovo = true;
     	flagInputHidden_1 = false;
     	tituloForm = "Pesquisar";
+    	
     	carregarMidia();
+    	carregarFilmes();
+    }
+    		
+    private void initObjects() {
+    	
+    	this.midias = new ArrayList<>();
+    	this.selectItemsFilmes = new ArrayList<>();
+    	this.midia = new Midia();
+    	this.filme = new Filme();
+    	this.midia.setFilme(new Filme());
+    }
+    
+    public void buscarMidiaPorFilme(){
+    	
+    	if (this.filme.getId() > 0) {
+				
+	   		this.midiaRN = new MidiaRN();
+	   		this.midias = this.midiaRN.buscarMidiaPorFilme(this.filme.getId());
+    	} else {
+    		this.midias = this.midiaRN.listar();
+    	}
     }
     
     public void buscarPorID(){
-    	if (validarCampos()) {
-    		
-    		this.midiaRN = new MidiaRN();
-    		this.midia = this.midiaRN.buscarPorID(this.midia.getId());
-		}
+    	
+   		this.midiaRN = new MidiaRN();
+   		this.midia = this.midiaRN.buscarPorID(this.midia.getId());
     }
     
     public String cadastrar() throws DAOException{
+
+    	this.midia.setFilme(this.filme);
     	
     	if (validarCampos()) {
     		
     		this.midiaRN = new MidiaRN();
     		this.midiaRN.salvar(this.midia);
+    		
     		Message.info("Mídia "+Message.MSG_SALVO);
     		carregarMidia();
     		novo();
@@ -75,6 +109,7 @@ public class MidiaController implements Serializable {
     	
     	this.midiaRN = new MidiaRN();
     	this.midiaRN.excluir(this.midia);
+    	
 		Message.erro("Mídia "+Message.MSG_REMOCAO);
 		cancelar();
 		
@@ -83,10 +118,12 @@ public class MidiaController implements Serializable {
     }
     
     public String editar() throws RNException, DAOException {
+    	
     	if (validarCampos()) {
     		
     		this.midiaRN = new MidiaRN();
-    		this.midiaRN.salvar(this.midia);
+    		this.midiaRN.atualizar(this.midia);
+    		
     		Message.info("Mídia "+Message.MSG_EDICAO);
     		cancelar();
     	}
@@ -137,24 +174,41 @@ public class MidiaController implements Serializable {
     
     private void carregarMidia() {
 		
-    	if (ClasseUtil.empty(this.midias.size(), 1, "Lista de Mídia está vazia!")) {
+    	if (this.midias.size() == 0) {
 			
     		this.midiaRN = new MidiaRN();
     		this.midias.addAll(this.midiaRN.listar());
 		}
 	}
+    
+    private void carregarFilmes(){
+    	
+    	List<Filme> filmes = new ArrayList<>();
+    	this.filmeRN = new FilmeRN();
+    	
+    	filmes = this.filmeRN.listar();
+    	
+    	this.selectItemsFilmes.addAll(ClasseUtil.initCombo(filmes, "id", "descricao"));
+    }
 
     private boolean validarCampos() {
     	boolean retorno = true;
     	
-    	if (ClasseUtil.empty(this.midia.getFilme().getId(), "Campo Filme está vazio.")
-    			|| ClasseUtil.empty(this.midia.getInutilizada(), "Campo Inutilizada está vazio.")) {
+    	if (ClasseUtil.empty(this.midia.getFilme().getId(), "Campo Filme está vazio.")) {
 	    		
-    			retorno = false;
+   			retorno = false;
     	}
     	return retorno;
     }
     
+	public Filme getFilme() {
+		return filme;
+	}
+
+	public void setFilme(Filme filme) {
+		this.filme = filme;
+	}
+
 	public boolean isFlagCadastrar() {
 		return flagCadastrar;
 	}
@@ -209,6 +263,26 @@ public class MidiaController implements Serializable {
 
 	public void setTituloForm(String tituloForm) {
 		this.tituloForm = tituloForm;
+	}
+
+	public Midia getMidia() {
+		return midia;
+	}
+
+	public void setMidia(Midia midia) {
+		this.midia = midia;
+	}
+
+	public List<SelectItem> getSelectItemsFilmes() {
+		return selectItemsFilmes;
+	}
+
+	public void setSelectItemsFilmes(List<SelectItem> selectItemsFilmes) {
+		this.selectItemsFilmes = selectItemsFilmes;
+	}
+
+	public void setMidias(List<Midia> midias) {
+		this.midias = midias;
 	}
 
 }

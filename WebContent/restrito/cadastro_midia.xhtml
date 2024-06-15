@@ -9,71 +9,62 @@
 		<ui:define name="corpo">
 			
 			<h:panelGroup>
-				<h3><h:outputText value="#{clienteController.tituloForm} Filme"/></h3>
+				<h3><h:outputText value="#{midiaController.tituloForm} Mídia"/></h3>
 				<h:messages showDetail="true"/>
 				<h:form>
 					<h:panelGroup>
 						<h:panelGrid columns="2">
 							<h:outputLabel value="Código"/>
-							<h:inputText styleClass="field-small" disabled="true"  value="#{filmeController.filme.id}"/>
-			
-							<h:outputLabel value="Descrição"/>
-					        <h:inputText value="#{filmeController.filme.descricao}"/>
-					        
-					        <h:outputLabel value="Ano"/>
-					        <h:inputText value="#{filmeController.filme.ano}">
-					        	<f:convertDateTime dateStyle="default"/>
-					        </h:inputText>
-					        
-					        <h:outputLabel value="Categoria"/>
-					        <h:selectOneMenu value="#{filmeController.filme.categoria.id}">
-								<f:selectItems value="#{filmeController.selectItemsCategorias}"/>					        
+							<h:inputText styleClass="field-small" disabled="true"  value="#{midiaController.midia.id}"/>
+							
+							<h:outputLabel value="Inutilizado"/>
+							<h:inputText styleClass="field-small" value="#{midiaController.midia.inutilizado}"/>
+							
+					        <h:outputLabel value="Filme"/>
+					        <h:selectOneMenu value="#{midiaController.filme.id}">
+					        	<f:selectItem itemValue="0" itemLabel="selecione"/>
+								<f:selectItems value="#{midiaController.selectItemsFilmes}"/>					        
 					        </h:selectOneMenu>
 					    </h:panelGrid>
 					    
 						<h:panelGrid columns="2" width="20">
 							
-							<h:commandButton rendered="#{filmeController.flagPesquisar}" styleClass="btn-outline-secondary" value="Pesquisar" action="#{filmeController.pesquisar}" />
+							<h:commandButton rendered="#{midiaController.flagPesquisar}" styleClass="btn-outline-secondary" value="Pesquisar" action="#{midiaController.buscarMidiaPorFilme}" />
 							
-							<h:commandButton rendered="#{filmeController.flagCadastrar}" styleClass="btn-outline-secondary" value="Cadastrar" action="#{filmeController.cadastrar}" />
+							<h:commandButton rendered="#{midiaController.flagCadastrar}" styleClass="btn-outline-secondary" value="Cadastrar" action="#{midiaController.cadastrar}" />
 							
-							<h:commandButton rendered="#{filmeController.flagEditar}" styleClass="btn-outline-secondary" value="Editar" action="#{filmeController.editar}" />
+							<h:commandButton rendered="#{midiaController.flagEditar}" styleClass="btn-outline-secondary" value="Editar" action="#{midiaController.editar}" />
 										        
-					        <h:commandButton rendered="#{filmeController.flagNovo}" styleClass="btn-outline-secondary" value="Novo" action="#{filmeController.novo}" />
+					        <h:commandButton rendered="#{midiaController.flagNovo}" styleClass="btn-outline-secondary" value="Novo" action="#{midiaController.novo}" />
 					        
-					        <h:commandButton rendered="#{filmeController.flagCancelar}" styleClass="btn-outline-secondary" value="Cancelar" action="#{filmeController.cancelar}" />				
+					        <h:commandButton rendered="#{midiaController.flagCancelar}" styleClass="btn-outline-secondary" value="Cancelar" action="#{midiaController.cancelar}" />				
 						</h:panelGrid>
 					</h:panelGroup>
 					
-					<h:dataTable value="#{filmeController.filmes}" var="f" rendered="#{!empty filmeController.filmes}">
+					<h:dataTable value="#{midiaController.midias}" var="m" rendered="#{!empty midiaController.midias}">
 						<h:column>
 							<f:facet name="header">Código</f:facet>
-							<h:outputText value="#{f.id}"/>
+							<h:outputText value="#{m.id}"/>
 						</h:column>
 						
 						<h:column>
-							<f:facet name="header">Descrição</f:facet>	
-							<h:outputText value="#{f.descricao}"/>
+							<f:facet name="header">Inutilizado</f:facet>	
+							<h:outputText value="#{m.inutilizado}"/>
 						</h:column>
 						
 						<h:column>
-							<f:facet name="header">Ano</f:facet>
-							<h:outputText value="#{f.ano}"/>
-						</h:column>
-						
-						<h:column>
-							<f:facet name="header">Categoria</f:facet>
-							<h:outputText value="#{f.categoria.descricao}"/>
+							<f:facet name="header">Filme</f:facet>
+							<h:outputText value="#{m.filme.descricao}"/>
 						</h:column>
 						
 						<h:column>
 							<f:facet name="header"></f:facet>
-							<h:commandButton value="Editar" action="#{filmeController.atualizarFlagEditar}">
-								<f:setPropertyActionListener value="#{f}" target="#{filmeController.filme}"/>
+							<h:commandButton value="Editar" action="#{midiaController.atualizarFlagEditar}">
+								<f:setPropertyActionListener value="#{m}" target="#{midiaController.midia}"/>
 							</h:commandButton>
 
-							<h:commandButton value="Excluir" action="#{filmeController.remover}">
-								<f:setPropertyActionListener value="#{f}" target="#{filmeController.filme}"/>
+							<h:commandButton value="Excluir" action="#{midiaController.remover}">
+								<f:setPropertyActionListener value="#{m}" target="#{midiaController.midia}"/>
 							</h:commandButton>
 						</h:column>
 					</h:dataTable>

@@ -27,7 +27,7 @@ public class Locacao implements Serializable {
 	@Column(name = "cod_locacao")
 	private Long id;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne
 	@JoinColumn(name = "cod_cliente", nullable = false)
 	private Cliente cliente;
 	

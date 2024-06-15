@@ -86,15 +86,15 @@ public class FilmeDAOImpl implements FilmeDAO {
 	@Override
 	public Filme buscarPorId(Long id) {
 
-		Query consulta = null;
+		 Filme filme = null;
 		try {
 			this.entityManager.getTransaction().begin();
 
 			String jpql = "select c from Filme c where c.id = :paramId";
-			consulta = this.entityManager.createQuery(jpql, Filme.class);
+			Query consulta = this.entityManager.createQuery(jpql, Filme.class);
 			consulta.setParameter("paramId", id);
 			this.entityManager.getTransaction().commit();
-			consulta.getSingleResult();
+			filme = (Filme)consulta.getSingleResult();
 
 		} catch (Throwable ex) {
 			new DAOException("Não foi possível buscar Filme por Id. ", ex);
@@ -109,7 +109,7 @@ public class FilmeDAOImpl implements FilmeDAO {
 			}
 		}
 		
-		return (Filme) consulta.getSingleResult();
+		return filme;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -119,7 +119,7 @@ public class FilmeDAOImpl implements FilmeDAO {
 		List<Filme> filmes = null;
 		try {
 			this.entityManager.getTransaction().begin();
-			String jpql = "select f from Filme f join f.midia md on md.cod_filme = f.cod_filme where md.cod_filme = :paramId";
+			String jpql = "select f from Filme f where f.midia.id = :paramId";
 			Query consulta = this.entityManager.createQuery(jpql, Filme.class);
 			consulta.setParameter("paramId", idMidia);
 			this.entityManager.getTransaction().commit();

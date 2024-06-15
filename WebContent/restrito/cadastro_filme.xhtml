@@ -45,28 +45,29 @@
 						</h:panelGrid>
 					</h:panelGroup>
 					
-					<h:dataTable value="#{filmeController.filmes}" var="f" rendered="#{!empty filmeController.filmes}">
-						<h:column>
+					<h:dataTable border="2" width="800" value="#{filmeController.filmes}" var="f" rendered="#{!empty filmeController.filmes}">
+						
+						<h:column headerClass="tabela-column">
 							<f:facet name="header">Código</f:facet>
 							<h:outputText value="#{f.id}"/>
 						</h:column>
 						
-						<h:column>
+						<h:column headerClass="tabela-column">
 							<f:facet name="header">Descrição</f:facet>	
 							<h:outputText value="#{f.descricao}"/>
 						</h:column>
 						
-						<h:column>
+						<h:column headerClass="tabela-column">
 							<f:facet name="header">Ano</f:facet>
 							<h:outputText value="#{f.ano}"/>
 						</h:column>
 						
-						<h:column>
+						<h:column headerClass="tabela-column">
 							<f:facet name="header">Categoria</f:facet>
 							<h:outputText value="#{f.categoria.descricao}"/>
 						</h:column>
 						
-						<h:column>
+						<h:column headerClass="tabela-column">
 							<f:facet name="header"></f:facet>
 							<h:commandButton value="Editar" action="#{filmeController.atualizarFlagEditar}">
 								<f:setPropertyActionListener value="#{f}" target="#{filmeController.filme}"/>

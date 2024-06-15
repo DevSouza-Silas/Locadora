@@ -12,21 +12,21 @@ public class MidiaRN {
 	public MidiaRN() {
 		this.midiaDAO = DAOFactory.criarMidiaDAO();
 	}
-
+	
+	public List<Midia> buscarMidiaPorFilme(Long id) {
+		return this.midiaDAO.buscarMidiaPorFilme(id);
+	}
+	
 	public Midia buscarPorID(Long id) {
-		
 		return this.midiaDAO.buscarPorId(id);
 	}
 	
 	public void salvar(Midia midia) {
-		
-		Long id = midia.getId();
-		
-		if (id == null || id == 0) {
-			this.midiaDAO.salvar(midia);
-		} else {
-			this.midiaDAO.atualizar(midia);
-		}
+		this.midiaDAO.salvar(midia);
+	}
+	
+	public void atualizar(Midia midia) {
+		this.midiaDAO.atualizar(midia);
 	}
 	
 	public void excluir(Midia midia) {

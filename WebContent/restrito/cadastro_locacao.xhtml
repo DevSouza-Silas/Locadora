@@ -18,34 +18,18 @@
 							<h:inputText styleClass="field-small" disabled="true"  value="#{locacaoController.locacao.id}"/>
 			
 							<h:outputLabel value="Cliente"/>
-					        <h:selectOneMenu value="#{locacaoController.locacao.cliente.id}">
+					        <h:selectOneMenu value="#{locacaoController.cliente.id}">
 								<f:selectItems value="#{locacaoController.selectItemsClientes}"/>					        
 					        </h:selectOneMenu>
 					        
 					        <h:outputLabel value="Mídia"/>
-					        <h:selectOneMenu value="#{locacaoController.locacao.midia.id}">
+					        <h:selectOneMenu value="#{locacaoController.midia.id}">
 								<f:selectItems value="#{locacaoController.selectItemsMidias}"/>	
-								<f:ajax event="blur" render="IdFilme"/>				        
 					        </h:selectOneMenu>
-					        
-					        <h:outputLabel value="Filme Selecionado"/>
-					        <h:selectManyListbox id="IdFilme">
-								<f:selectItems value="#{locacaoController.selectItemsFilmes}"/>					        
-					        </h:selectManyListbox>
-
-					        <h:outputLabel value="Data do Empréstimo"/>
-					        <h:inputText value="#{locacaoController.locacao.dataEmprestimo}">
-					        	<f:convertDateTime dateStyle="default"/>
-					        </h:inputText>
-					        
-					        <h:outputLabel value="Hora do Empréstimo"/>
-					        <h:inputText value="#{locacaoController.locacao.horaEmprestimo}">
-					        	<f:convertDateTime dateStyle="default"/>
-					        </h:inputText>
 					        
 					        <h:outputLabel value="Data da Devolução"/>
 					        <h:inputText value="#{locacaoController.locacao.dataDevolucao}">
-					        	<f:convertDateTime dateStyle="default"/>
+					        	<f:convertDateTime dateStyle="default" locale="pt_BR"/>
 					        </h:inputText>
 					        
 					        <h:outputLabel value="Observação"/>
@@ -56,9 +40,9 @@
 							
 							<h:commandButton rendered="#{locacaoController.flagPesquisar}" styleClass="btn-outline-secondary" value="Pesquisar" action="#{locacaoController.pesquisar}" />
 							
-							<h:commandButton rendered="#{locacaoController.flagCadastrar}" styleClass="btn-outline-secondary" value="Cadastrar" action="#{locacaoController.cadastrar}" />
+							<h:commandButton rendered="#{locacaoController.flagCadastrar}" styleClass="btn-outline-secondary" value="Locar" action="#{locacaoController.cadastrar}" />
 							
-							<h:commandButton rendered="#{locacaoController.flagEditar}" styleClass="btn-outline-secondary" value="Editar" action="#{locacaoController.editar}" />
+							<h:commandButton rendered="#{locacaoController.flagDeslocar}" styleClass="btn-outline-secondary" value="Confirmar" action="#{locacaoController.deslocarMidia}" />
 										        
 					        <h:commandButton rendered="#{locacaoController.flagNovo}" styleClass="btn-outline-secondary" value="Novo" action="#{locacaoController.novo}" />
 					        
@@ -66,15 +50,25 @@
 						</h:panelGrid>
 					</h:panelGroup>
 					
-					<h:dataTable value="#{locacaoController.locacoes}" var="l" rendered="#{!empty locacaoController.locacoes}">
+					<h:dataTable border="2" value="#{locacaoController.locacoes}" var="l" rendered="#{!empty locacaoController.locacoes}">
 						<h:column>
 							<f:facet name="header">Código</f:facet>
 							<h:outputText value="#{l.id}"/>
 						</h:column>
 						
 						<h:column>
+							<f:facet name="header">Código cliente</f:facet>	
+							<h:outputText value="#{l.cliente.id}"/>
+						</h:column>
+						
+						<h:column>
 							<f:facet name="header">Cliente</f:facet>	
 							<h:outputText value="#{l.cliente.nome}"/>
+						</h:column>
+						
+						<h:column>
+							<f:facet name="header">Código Mídia</f:facet>
+							<h:outputText value="#{l.midia.id}"/>
 						</h:column>
 						
 						<h:column>
@@ -104,11 +98,7 @@
 						
 						<h:column>
 							<f:facet name="header"></f:facet>
-							<h:commandButton value="Editar" action="#{locacaoController.atualizarFlagEditar}">
-								<f:setPropertyActionListener value="#{l}" target="#{locacaoController.locacao}"/>
-							</h:commandButton>
-
-							<h:commandButton value="Excluir" action="#{locacaoController.remover}">
+							<h:commandButton value="Deslocar" action="#{locacaoController.deslocarAtualizarFlags}">
 								<f:setPropertyActionListener value="#{l}" target="#{locacaoController.locacao}"/>
 							</h:commandButton>
 						</h:column>

@@ -44,8 +44,8 @@ public class CategoriaController implements Serializable {
     @PostConstruct
     public void init() {
     	
-    	categorias = new ArrayList<>();
-    	categoria = new Categoria();
+    	initObjects();
+    	
     	confirmarSenha = null;
     	
     	flagPesquisar = true;
@@ -56,7 +56,14 @@ public class CategoriaController implements Serializable {
     	carregarCategoria();
     }
     
+    private void initObjects() {
+    	
+    	categorias = new ArrayList<>();
+    	categoria = new Categoria();
+    }
+    
     public String pesquisar(){
+    	
     	if (!ClasseUtil.empty(categoria.getDescricao(), "Informe a descrição!")) {
     		
     		categoriaRN = new CategoriaRN();
@@ -147,7 +154,7 @@ public class CategoriaController implements Serializable {
     
     private void carregarCategoria() {
 		
-    	if (ClasseUtil.empty(categorias.size(), 1, "Lista de categoria está vazia!")) {
+    	if (ClasseUtil.empty(categorias.size(), 1, "")) {
 			
     		categoriaRN = new CategoriaRN();
     		categorias.addAll(categoriaRN.listar());

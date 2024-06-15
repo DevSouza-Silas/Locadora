@@ -9,13 +9,25 @@
 	<ui:composition>
 		<b:navBar brand="" style="background:gray; color:white;">
 		  <b:navbarLinks>
-		    <b:navLink style="color:white;" value="Filme" href="http://localhost:8080/Locadora/restrito/cadastro_filme.xhtml"></b:navLink>
-		    <b:navLink style="color:white;" value="Categoria" href="http://localhost:8080/Locadora/restrito/cadastro_categoria.xhtml"></b:navLink>
-		    <b:navLink style="color:white;" value="Locação" href="http://localhost:8080/Locadora/restrito/cadastro_locacao.xhtml"></b:navLink>
+		    <b:dropMenu  style="color:white;" value="Locação">
+		      <b:navLink value="Locar/Deslocar" href="http://localhost:8080/Locadora/restrito/cadastro_locacao.xhtml"></b:navLink>
+			</b:dropMenu>	
+			
+		  	<b:dropMenu  style="color:white;" value="Filme">
+		     <b:navLink value="Manager filme" href="http://localhost:8080/Locadora/restrito/cadastro_filme.xhtml"></b:navLink>
+		    </b:dropMenu>
 		    
-		    <b:dropMenu  style="color:white;" value="Menu do Cliente">
-		     <b:navLink value="Cadastro" href="http://localhost:8080/Locadora/restrito/cadastro_cliente.xhtml"></b:navLink>
-		     <b:navLink value="Endereço" href="http://localhost:8080/Locadora/restrito/cadastro_endereco.xhtml"></b:navLink>
+		    <b:dropMenu  style="color:white;" value="Categoria">
+		      <b:navLink value="Manager Categoria" href="http://localhost:8080/Locadora/restrito/cadastro_categoria.xhtml"></b:navLink>
+		    </b:dropMenu>
+		    
+		    <b:dropMenu  style="color:white;" value="Mídia">
+		      <b:navLink value="Manager Mídia" href="http://localhost:8080/Locadora/restrito/cadastro_midia.xhtml"></b:navLink>
+			</b:dropMenu>	    
+		    
+		    <b:dropMenu  style="color:white;" value="Cliente">
+		     <b:navLink value="Manager Cliente" href="http://localhost:8080/Locadora/restrito/cadastro_cliente.xhtml"></b:navLink>
+		     <b:navLink value="Manager Endereço" href="http://localhost:8080/Locadora/restrito/cadastro_endereco.xhtml"></b:navLink>
 		      <b:navLink value="Sair" href="#"></b:navLink>
 		    </b:dropMenu>
 		  </b:navbarLinks>

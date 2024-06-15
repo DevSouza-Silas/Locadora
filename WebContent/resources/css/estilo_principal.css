@@ -5,6 +5,21 @@
 	border: 2px;
 }
 
+.tabela-column {
+	text-align: center;
+	background-color: gray;
+	color: white;
+	
+}
+
+.status{
+	text-align: center;
+}
+
+#img{
+	width: 400px;
+}
+
 #slogan {
 	text-align:center;
 	font-family: verdana, Arial, Sans-serif;
@@ -12,22 +27,22 @@
 }
 
 #barra_menu {
-	background: #006600;;
-	min-height: 25px;
+	background: gray;
+	min-height: 20px;
 	padding: 3px;
 	clear: both;
 } 	  	
 
 #corpo{
-	margin-top: 10px;
+	/*margin-top: 10px;
 	margin-bottom: 10px;
-	min-height: 300px;
+	min-height: 300px;*/
 }
 
 #rodape{
-	background: #006600;
+	background: gray;
 	height: 100px;
-	margin-top: 5px;
-	padding: 10px;
+	margin-top: 10px;
+	padding: 50px;
 	text-align: center;
 }

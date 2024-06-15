@@ -19,36 +19,44 @@ public class EnderecoController implements Serializable {
   
 	private static final long serialVersionUID = 1L;
 	
-    private Endereco endereco;
-    
-    private EnderecoRN enderecoRN;
-     
-    private List<Endereco> enderecos;
-    
+	private Endereco endereco;
+	
+	private EnderecoRN enderecoRN;
+	 
+	private List<Endereco> enderecos;
+	
 	private String tituloForm;
 	
-    private boolean flagCadastrar;
-
-    private boolean flagInputHidden_1;
-    
-    private boolean flagEditar;
-    
-    private boolean flagCancelar;
-    
-    private boolean flagPesquisar;
-    
-    private boolean flagNovo;
-    
-    @PostConstruct
-    public void init() {
-    	this.enderecos = new ArrayList<>();
-    	this.endereco = new Endereco();
-    	flagPesquisar = true;
-    	flagNovo = true;
-    	flagInputHidden_1 = false;
-    	tituloForm = "Pesquisar";
-    	carregarEndereco();
-    }
+	private boolean flagCadastrar;
+	
+	private boolean flagInputHidden_1;
+	
+	private boolean flagEditar;
+	
+	private boolean flagCancelar;
+	
+	private boolean flagPesquisar;
+	
+	private boolean flagNovo;
+	
+	@PostConstruct
+	public void init() {
+		
+		initObjects();
+		
+		flagPesquisar = true;
+		flagNovo = true;
+		flagInputHidden_1 = false;
+		tituloForm = "Pesquisar";
+		
+		carregarEndereco();
+	}
+	
+	private void initObjects() {
+		
+		this.enderecos = new ArrayList<>();
+		this.endereco = new Endereco();
+	}
     
    public void pesquisar(){
     	if (validarCampos()) {
@@ -64,6 +72,7 @@ public class EnderecoController implements Serializable {
     		
     		this.enderecoRN = new EnderecoRN();
     		this.enderecoRN.salvar(this.endereco);
+    		
     		Message.info("Endereço " + Message.MSG_SALVO);
     		carregarEndereco();
     		novo();
@@ -137,7 +146,7 @@ public class EnderecoController implements Serializable {
     
     private void carregarEndereco() {
 		
-    	if (ClasseUtil.empty(this.enderecos.size(), 1, "Lista de endereços está vazia!")) {
+    	if (ClasseUtil.empty(this.enderecos.size(), 1, "")) {
 			
     		this.enderecoRN = new EnderecoRN();
     		this.enderecos.addAll(enderecoRN.listar());

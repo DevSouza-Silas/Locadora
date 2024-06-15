@@ -3,9 +3,14 @@ package com.locadora.teste;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.locadora.dao.LocacaoDAO;
 import com.locadora.model.Categoria;
 import com.locadora.model.CategoriaRN;
+import com.locadora.model.Locacao;
+import com.locadora.model.LocacaoRN;
+import com.locadora.model.Midia;
 import com.locadora.util.DAOException;
+import com.locadora.util.DAOFactory;
 
 public class Teste {
 
@@ -13,9 +18,15 @@ public class Teste {
 	
 	public static void main(String[] args) throws DAOException {
 	
-		categoriaRN = new CategoriaRN();
-		Teste teste = new Teste();
+		//categoriaRN = new CategoriaRN();
+		//Teste teste = new Teste();
 		
+		Locacao locacao = new Locacao();
+		locacao.setMidia(new Midia());
+		
+		//locacao = DAOFactory.criarLocacaoDAO().buscarPorMidia(4l);		
+
+		System.out.println("====>> " + locacao.getMidia().getId());
 		//teste.buscarPorId();
 		//teste.buscarPorDesc();
 		//teste.listar();

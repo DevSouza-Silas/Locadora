@@ -2,6 +2,7 @@ package com.locadora.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -28,6 +30,10 @@ public class Filme implements Serializable {
 	@JoinColumn(name = "cod_categoria", nullable = false)
 	private Categoria categoria;
 	
+	@OneToMany(mappedBy = "filme")
+	private List<Midia> midias;
+	
+	private String imagem;
 	private String descricao;
 	private Date ano;
 
@@ -58,6 +64,23 @@ public class Filme implements Serializable {
 	public void setAno(Date ano) {
 		this.ano = ano;
 	}
+	
+	public List<Midia> getMidias() {
+		return midias;
+	}
+
+	public void setMidias(List<Midia> midias) {
+		this.midias = midias;
+	}
+
+	public String getImagem() {
+		return imagem;
+	}
+
+	public void setImagem(String imagem) {
+		this.imagem = imagem;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

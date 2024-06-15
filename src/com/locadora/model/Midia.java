@@ -27,7 +27,7 @@ public class Midia implements Serializable {
 	@JoinColumn(name = "cod_filme", nullable = false)
 	private Filme filme;
 	
-	private String inutilizada;
+	private String inutilizado;
 
 	public Midia() {
 	}
@@ -48,12 +48,12 @@ public class Midia implements Serializable {
 		this.filme = filme;
 	}
 
-	public String getInutilizada() {
-		return inutilizada;
+	public String getInutilizado() {
+		return inutilizado;
 	}
 
-	public void setInutilizada(String inutilizada) {
-		this.inutilizada = inutilizada;
+	public void setInutilizado(String inutilizado) {
+		this.inutilizado = inutilizado;
 	}
 
 	@Override

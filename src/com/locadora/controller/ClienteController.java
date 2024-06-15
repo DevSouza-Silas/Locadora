@@ -35,8 +35,6 @@ public class ClienteController implements Serializable {
     
 	private String tituloForm;
 	
-	private String enderecoStr;
-	
     private boolean flagCadastrar;
 
     private boolean flagEditar;
@@ -50,10 +48,7 @@ public class ClienteController implements Serializable {
     @PostConstruct
     public void init() {
     	
-    	this.clientes = new ArrayList<>();
-    	this.cliente = new Cliente();
-    	this.cliente.setEndereco(new Endereco());
-    	this.selectItemEnderecos = new ArrayList<>();
+    	initObjects();
     	
     	flagPesquisar = true;
     	flagNovo = true;
@@ -63,7 +58,16 @@ public class ClienteController implements Serializable {
     	carregarComboEndereco();
     }
     
+    private void initObjects() {
+    	
+    	this.clientes = new ArrayList<>();
+    	this.cliente = new Cliente();
+    	this.cliente.setEndereco(new Endereco());
+    	this.selectItemEnderecos = new ArrayList<>();
+    }
+    
     public String pesquisar(){
+    	
     	if (!ClasseUtil.empty(cliente.getNome(), "Informe o Nome!")) {
     		
     		clienteRN = new ClienteRN();
@@ -92,6 +96,7 @@ public class ClienteController implements Serializable {
     	
     	clienteRN = new ClienteRN();
     	clienteRN.excluir(cliente);
+    	
 		Message.erro("Cliente " + Message.MSG_REMOCAO);
 		cancelar();
 		
@@ -100,10 +105,12 @@ public class ClienteController implements Serializable {
     }
     
     public String editar() throws RNException, DAOException {
+    	
     	if (validarCampos()) {
     		
     		clienteRN = new ClienteRN();
     		clienteRN.atualizar(cliente);
+    		
     		Message.info("Cliente " + Message.MSG_EDICAO);
     		cancelar();
     	}
@@ -157,7 +164,7 @@ public class ClienteController implements Serializable {
     
     private void carregarCliente() {
 		
-    	if (ClasseUtil.empty(clientes.size(), 1, "Lista de clientes está vazia!")) {
+    	if (ClasseUtil.empty(clientes.size(), 1, "")) {
 			
     		clienteRN = new ClienteRN();
     		clientes.addAll(clienteRN.listar());

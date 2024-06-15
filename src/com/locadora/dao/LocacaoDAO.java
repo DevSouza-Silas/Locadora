@@ -10,5 +10,6 @@ public interface LocacaoDAO {
 	public void atualizar(Locacao locacao);
 	public void excluir(Locacao locacao);
 	public Locacao buscarPorId(Long id);
+	public List<Locacao> buscarPorMidia(Long id);
 	public List<Locacao> listar();
 }
